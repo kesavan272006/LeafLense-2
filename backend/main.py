@@ -41,6 +41,12 @@ app.include_router(yield_router, prefix="/yield", tags=["YieldPredictor"])
 def root():
     return {"message": "Unified Backend running successfully"}
 
+# Optional: If you want to run initialization code (e.g. loading global models),
+# use FastAPI startup event handlers inside each router module or here
+@app.on_event("startup")
+def startup_event():
+    print("Application startup: initialize resources if needed")
+
 # Only for local development
 if __name__ == "__main__":
     import uvicorn

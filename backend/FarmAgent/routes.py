@@ -157,7 +157,9 @@ async def chat_with_farmer(chat_data: dict):
         raise HTTPException(status_code=500, detail=f"Chat failed: {str(e)}")
 
 async def generate_chat_response(farmer, user_question, weather_data, risk_scores):
-    import google.generativeai as genai
+    from langchain_google_genai import ChatGoogleGenerativeAI
+    import os
+
     prompt = f"""
 You are FarmAI, an agricultural expert assistant for {farmer.get('name', 'the farmer')}.
 
@@ -174,9 +176,12 @@ Answer specifically for this farmer's situation. Be practical and actionable.
 Keep response under 200 characters. Use simple language.
 """
     try:
-        genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
-        model = genai.GenerativeModel("gemini-pro")
-        response = model.generate_content(prompt)
+        llm = ChatGoogleGenerativeAI(
+            model="gemini-1.5-flash",
+            model_kwargs={}
+        )
+
+        response = llm.invoke(prompt)
         return response.text.strip()
     except Exception:
         return "I'm having trouble processing your question right now. Please try again later."

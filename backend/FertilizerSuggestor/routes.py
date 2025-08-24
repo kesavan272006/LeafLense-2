@@ -3,7 +3,9 @@ from pydantic import BaseModel
 import joblib
 import pandas as pd
 import json
-import google.generativeai as genai
+from langchain_google_genai import ChatGoogleGenerativeAI
+import os
+
 from huggingface_hub import hf_hub_download
 import re
 import os
@@ -22,8 +24,11 @@ fertilizer_model_path = hf_hub_download(
 model, columns = joblib.load(fertilizer_model_path)
 
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")  
-genai.configure(api_key=GEMINI_API_KEY)
-gemini_model = genai.GenerativeModel("gemini-2.0-flash")
+llm = ChatGoogleGenerativeAI(
+    model="gemini-1.5-flash",
+    model_kwargs={}
+)
+
 
 # ---------------------------
 # Pydantic schemas
@@ -61,7 +66,7 @@ def clean_input_with_gemini(user_input: str) -> dict:
         "}"
     )
 
-    response = gemini_model.generate_content(prompt)
+    response = llm.invoke(prompt)
     match = re.search(r'\{[\s\S]*\}', response.text)
     if not match:
         raise ValueError("No JSON object found in Gemini response.")
