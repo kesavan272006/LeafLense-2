@@ -12,10 +12,17 @@ import {
   TrendingUp,
   Shield,
   Zap,
-  Brain
+  Brain,
+  Calendar,
+  AlertTriangle,
+  Calculator,
+  DollarSign,
+  BookOpen,
+  Database,
+  TestTube,
+  PieChart
 } from 'lucide-react'
 import { useLanguage } from '../../contexts/LanguageContext'
-
 
 const stats = [
   { label: 'Accuracy', value: '94.2%', icon: TrendingUp, color: 'text-agri-400' },
@@ -84,6 +91,62 @@ const Sidebar = ({ open, setOpen }) => {
       description: t('voiceInLocalLanguages'),
       gradient: 'from-pink-500 to-pink-600'
     },
+    { 
+      name: t('cropCalendar'), 
+      href: '/crop-calendar', 
+      icon: Calendar,
+      description: t('sowingGuidance'),
+      gradient: 'from-indigo-500 to-indigo-600'
+    },
+    { 
+      name: t('pestAlert'), 
+      href: '/pest-alert', 
+      icon: AlertTriangle,
+      description: t('pestKnowledgeBase'),
+      gradient: 'from-orange-500 to-orange-600'
+    },
+    { 
+      name: t('seedCalculator'), 
+      href: '/seed-calculator', 
+      icon: Calculator,
+      description: t('calculateSeedRates'),
+      gradient: 'from-teal-500 to-teal-600'
+    },
+    { 
+      name: t('costEstimator'), 
+      href: '/cost-estimator', 
+      icon: DollarSign,
+      description: t('farmingCostEstimation'),
+      gradient: 'from-amber-500 to-amber-600'
+    },
+    { 
+      name: t('farmingTips'), 
+      href: '/farming-tips', 
+      icon: BookOpen,
+      description: t('practicalFarmingAdvice'),
+      gradient: 'from-cyan-500 to-cyan-600'
+    },
+    { 
+      name: t('encyclopedia'), 
+      href: '/encyclopedia', 
+      icon: Database,
+      description: t('farmingKnowledgeBase'),
+      gradient: 'from-violet-500 to-violet-600'
+    },
+    { 
+      name: t('soilChecker'), 
+      href: '/soil-checker', 
+      icon: TestTube,
+      description: t('soilSuitabilityCheck'),
+      gradient: 'from-lime-500 to-lime-600'
+    },
+    { 
+      name: t('profitCalculator'), 
+      href: '/profit-calculator', 
+      icon: PieChart,
+      description: t('cropProfitability'),
+      gradient: 'from-rose-500 to-rose-600'
+    },
   ]
 
   return (
@@ -91,9 +154,9 @@ const Sidebar = ({ open, setOpen }) => {
       {/* Desktop Sidebar */}
       <div className="hidden lg:flex lg:flex-shrink-0">
         <div className="w-80 flex flex-col">
-          <div className="flex-1 flex flex-col min-h-0 bg-slate-900/90 backdrop-blur-xl border-r border-slate-700/50">
-            {/* Logo */}
-            <div className="flex items-center justify-center px-6 py-6 bg-gradient-to-br from-slate-800/50 to-slate-900/50">
+          <div className="flex flex-col min-h-0 bg-slate-900/90 backdrop-blur-xl border-r border-slate-700/50">
+            {/* Logo - Fixed at top */}
+            <div className="flex-shrink-0 px-6 py-6 bg-gradient-to-br from-slate-800/50 to-slate-900/50">
               <div className="flex items-center space-x-3">
                 <div className="w-12 h-12 bg-gradient-to-br from-agri-500 to-agri-600 rounded-2xl flex items-center justify-center animate-glow">
                   <Leaf className="h-7 w-7 text-white" />
@@ -105,8 +168,8 @@ const Sidebar = ({ open, setOpen }) => {
               </div>
             </div>
 
-            {/* Navigation */}
-            <nav className="flex-1 px-4 py-6 space-y-2">
+            {/* Navigation - Scrollable */}
+            <nav className="flex-1 overflow-y-auto px-4 py-4 space-y-2">
               {navigation.map((item) => {
                 const isActive = location.pathname === item.href
                 return (
@@ -136,8 +199,8 @@ const Sidebar = ({ open, setOpen }) => {
               })}
             </nav>
 
-            {/* Stats Card */}
-            <div className="px-4 py-4">
+            {/* Stats Card - Fixed at bottom */}
+            <div className="flex-shrink-0 px-4 py-4">
               <div className="bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-sm rounded-2xl p-4 border border-slate-700/50">
                 <h3 className="text-sm font-semibold text-white mb-3 flex items-center">
                   <Zap className="h-4 w-4 mr-2 text-agri-400" />
@@ -165,8 +228,8 @@ const Sidebar = ({ open, setOpen }) => {
         open ? 'translate-x-0' : '-translate-x-full'
       }`}>
         <div className="flex flex-col h-full">
-          {/* Mobile header */}
-          <div className="flex items-center justify-between px-6 py-4 border-b border-slate-700/50">
+          {/* Mobile header - Fixed at top */}
+          <div className="flex-shrink-0 flex items-center justify-between px-6 py-4 border-b border-slate-700/50">
             <div className="flex items-center space-x-3">
               <div className="w-10 h-10 bg-gradient-to-br from-agri-500 to-agri-600 rounded-xl flex items-center justify-center">
                 <Leaf className="h-6 w-6 text-white" />
@@ -184,8 +247,8 @@ const Sidebar = ({ open, setOpen }) => {
             </button>
           </div>
 
-          {/* Mobile Navigation */}
-          <nav className="flex-1 px-4 py-6 space-y-2">
+          {/* Mobile Navigation - Scrollable */}
+          <nav className="flex-1 overflow-y-auto px-4 py-4 space-y-2">
             {navigation.map((item) => {
               const isActive = location.pathname === item.href
               return (

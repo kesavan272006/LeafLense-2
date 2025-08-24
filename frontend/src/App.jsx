@@ -12,6 +12,14 @@ import VoiceChatbot from './pages/VoiceChatbot'
 import LandingPage from './pages/landing'
 import Signin from './pages/signin'
 import Profile from './pages/profile'
+import CropCalendar from './pages/CropCalendar'
+import PestAlert from './pages/PestAlert'
+import SeedCalculator from './pages/SeedCalculator'
+import CostEstimator from './pages/CostEstimator'
+import FarmingTips from './pages/FarmingTips'
+import Encyclopedia from './pages/Encyclopedia'
+import SoilChecker from './pages/SoilChecker'
+import ProfitCalculator from './pages/ProfitCalculator'
 
 function App() {
   return (
@@ -29,6 +37,14 @@ function App() {
           <Route path="/insights" element={<Layout><Insights /></Layout>} />
           <Route path="/chat" element={<Layout><Chatbot /></Layout>} />
           <Route path="/voice-chat" element={<Layout><VoiceChatbot /></Layout>} />
+          <Route path="/crop-calendar" element={<Layout><CropCalendar /></Layout>} />
+          <Route path="/pest-alert" element={<Layout><PestAlert /></Layout>} />
+          <Route path="/seed-calculator" element={<Layout><SeedCalculator /></Layout>} />
+          <Route path="/cost-estimator" element={<Layout><CostEstimator /></Layout>} />
+          <Route path="/farming-tips" element={<Layout><FarmingTips /></Layout>} />
+          <Route path="/encyclopedia" element={<Layout><Encyclopedia /></Layout>} />
+          <Route path="/soil-checker" element={<Layout><SoilChecker /></Layout>} />
+          <Route path="/profit-calculator" element={<Layout><ProfitCalculator /></Layout>} />
         </Routes>
       </div>
     </LanguageProvider>
