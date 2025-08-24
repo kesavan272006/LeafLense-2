@@ -90,30 +90,6 @@ const pestData = {
       }
     ]
   },
-  maize: {
-    name: { en: 'Maize', hi: 'मक्का', ml: 'ചോളം' },
-    pests: [
-      {
-        name: { en: 'Fall Armyworm', hi: 'फॉल आर्मीवर्म', ml: 'ഫാൾ ആർമിവേം' },
-        severity: 'high',
-        symptoms: { 
-          en: 'Holes in leaves, damaged growing points, frass in whorl',
-          hi: 'पत्तियों में छेद, बढ़ते बिंदुओं को नुकसान, कुंडली में मल',
-          ml: 'ഇലകളിൽ ദ്വാരങ്ങൾ, വളരുന്ന പോയിന്റുകൾക്ക് കേടുപാടുകൾ'
-        },
-        prevention: {
-          en: 'Early planting, intercropping, pheromone traps',
-          hi: 'जल्दी बुवाई, अंतर-फसल, फेरोमोन ट्रैप',
-          ml: 'നേരത്തെ നടൽ, ഇടവിള, ഫെറോമോൺ കെണികൾ'
-        },
-        treatment: {
-          en: 'Apply chlorantraniliprole, spinetoram insecticides',
-          hi: 'क्लोरैंट्रानिलिप्रोल, स्पिनेटोरम कीटनाशकों का प्रयोग',
-          ml: 'ക്ലോറാന്ത്രാനിലിപ്രോൾ, സ്പിനെറ്റോറാം കീടനാശിനികൾ പ്രയോഗിക്കുക'
-        }
-      }
-    ]
-  },
   sugarcane: {
     name: { en: 'Sugarcane', hi: 'गन्ना', ml: 'കരിമ്പ്' },
     pests: [
@@ -137,7 +113,359 @@ const pestData = {
         }
       }
     ]
-  }
+  },
+  soybean: {
+  name: { en: 'Soybean', hi: 'सोयाबीन', ml: 'സോയാബീൻ' },
+  pests: [
+    {
+      name: { en: 'Soybean Aphid', hi: 'सोयाबीन माहू', ml: 'സോയാബീൻ എഫിഡ്സ്' },
+      severity: 'medium',
+      symptoms: {
+        en: 'Yellowing leaves, stunted growth, curled leaves',
+        hi: 'पत्तियों का पीला होना, विकास रुकना, मुड़ी हुई पत्तियाँ',
+        ml: 'ഇലകൾ മഞ്ഞയാകുക, വളർച്ച മുരടിക്കുക, വളച്ചിലായ ഇലകൾ'
+      },
+      prevention: {
+        en: 'Plant resistant varieties, remove weeds',
+        hi: 'प्रतिरोधी किस्में लगाएं, खरपतवार हटाएं',
+        ml: 'പ്രതിരോധശേഷിയുള്ള ഇനങ്ങൾ നടുക, കളകൾ നീക്കം ചെയ്യുക'
+      },
+      treatment: {
+        en: 'Spray imidacloprid or thiamethoxam',
+        hi: 'इमिडाक्लोप्रिड या थियामेथोक्साम छिड़कें',
+        ml: 'ഇമിഡാക്ലോപ്രിഡ് അല്ലെങ്കിൽ തിയമെത്തോക്സാം തളിക്കുക'
+      }
+    },
+    {
+      name: { en: 'Leaf Roller', hi: 'पत्ती रोलर', ml: 'ഇല റോളർ' },
+      severity: 'high',
+      symptoms: {
+        en: 'Rolled leaves, damaged foliage, reduced photosynthesis',
+        hi: 'मुड़ी हुई पत्तियाँ, पत्तियाँ क्षतिग्रस्त, प्रकाश-संश्लेषण कम',
+        ml: 'വളച്ച ഇലകൾ, ഇലകൾ കേടുപാട്, പ്രകാശസംശ്ലേഷണം കുറവ്'
+      },
+      prevention: {
+        en: 'Remove affected leaves, practice crop rotation',
+        hi: 'प्रभावित पत्तियाँ हटाएँ, फसल चक्र अपनाएँ',
+        ml: 'ബാധിച്ച ഇലകൾ നീക്കം ചെയ്യുക, വിളവുകൾ മടങ്ങി നടൽ'
+      },
+      treatment: {
+        en: 'Spray Bacillus thuringiensis or neem oil',
+        hi: 'बैसिलस थुरिंगियन्सिस या नीम का तेल छिड़कें',
+        ml: 'ബാസിൽസ് തുറിംഗ്‌എൻസിസ് അല്ലെങ്കിൽ നീം എണ്ണ തളിക്കുക'
+      }
+    }
+  ]
+},
+
+tomato: {
+  name: { en: 'Tomato', hi: 'टमाटर', ml: 'തക്കാളി' },
+  pests: [
+    {
+      name: { en: 'Tomato Fruit Borer', hi: 'टमाटर फल बेधक', ml: 'തക്കാളി പഴം തുരപ്പൻ' },
+      severity: 'high',
+      symptoms: {
+        en: 'Holes in fruits, premature fruit drop, rotting',
+        hi: 'फलों में छेद, समय से पहले गिरना, सड़न',
+        ml: 'പഴങ്ങളിൽ ദ്വാരങ്ങൾ, നേരത്തേ പഴം വീഴൽ, പാഴ്‌ച'
+      },
+      prevention: {
+        en: 'Use resistant varieties, destroy affected fruits',
+        hi: 'प्रतिरोधी किस्में लगाएँ, प्रभावित फलों को नष्ट करें',
+        ml: 'പ്രതിരോധശേഷിയുള്ള ഇനങ്ങൾ നടുക, ബാധിച്ച പഴങ്ങൾ നശിപ്പിക്കുക'
+      },
+      treatment: {
+        en: 'Spray spinosad or indoxacarb',
+        hi: 'स्पिनोसैड या इंडॉक्साकार्ब छिड़कें',
+        ml: 'സ്പിനോസാഡ് അല്ലെങ്കിൽ ഇൻഡോക്സാകാർബ് തളിക്കുക'
+      }
+    },
+    {
+      name: { en: 'Whitefly', hi: 'सफेद मक्खी', ml: 'വെള്ളപ്പുഴു' },
+      severity: 'medium',
+      symptoms: {
+        en: 'Yellow leaves, sticky honeydew, sooty mold',
+        hi: 'पीली पत्तियाँ, चिपचिपा शहद, कालीन सड़न',
+        ml: 'മഞ്ഞ ഇലകൾ, ചിപ്‌ചിപി തേൻ, കൂലി പൂർണ്ണം'
+      },
+      prevention: {
+        en: 'Use yellow sticky traps, remove weeds',
+        hi: 'पीले स्टिकी ट्रैप का उपयोग करें, खरपतवार हटाएँ',
+        ml: 'മഞ്ഞ സ്റ്റിക്കി ട്രാപ്പുകൾ ഉപയോഗിക്കുക, കളകൾ നീക്കം ചെയ്യുക'
+      },
+      treatment: {
+        en: 'Spray neem oil or imidacloprid',
+        hi: 'नीम का तेल या इमिडाक्लोप्रिड छिड़कें',
+        ml: 'നീം എണ്ണ അല്ലെങ്കിൽ ഇമിഡാക്ലോപ്രിഡ് തളിക്കുക'
+      }
+    }
+  ]
+},
+
+potato: {
+  name: { en: 'Potato', hi: 'आलू', ml: 'ഉരുളകിഴങ്ങ്' },
+  pests: [
+    {
+      name: { en: 'Potato Tuber Moth', hi: 'आलू कंद कीट', ml: 'ഉരുളകിഴങ്ങ് തൂബ് മാത്' },
+      severity: 'high',
+      symptoms: {
+        en: 'Holes in tubers, tunneling, reduced yield',
+        hi: 'कंद में छेद, सुरंग, उत्पादन कम',
+        ml: 'തൂബറിൽ ദ്വാരങ്ങൾ, തണൽ, വിളവ് കുറവ്'
+      },
+      prevention: {
+        en: 'Use healthy seed tubers, remove infested tubers',
+        hi: 'स्वस्थ बीज कंद का उपयोग करें, प्रभावित कंद हटाएँ',
+        ml: 'ആരോഗ്യകരമായ വിത്ത് തൂബർ ഉപയോഗിക്കുക, ബാധിച്ച തൂബർ നീക്കം ചെയ്യുക'
+      },
+      treatment: {
+        en: 'Spray Bacillus thuringiensis or neem oil',
+        hi: 'बैसिलस थुरिंगियन्सिस या नीम का तेल छिड़कें',
+        ml: 'ബാസിൽസ് തുറിംഗ്‌എൻസിസ് അല്ലെങ്കിൽ നീം എണ്ണ തളിക്കുക'
+      }
+    },
+    {
+      name: { en: 'Colorado Potato Beetle', hi: 'कोलोराडो आलू बीटल', ml: 'കൊളറാഡോ ഉരുളകിഴങ്ങ് ബീറ്റ്' },
+      severity: 'medium',
+      symptoms: {
+        en: 'Chewed leaves, defoliation, stunted growth',
+        hi: 'चबाई हुई पत्तियाँ, पत्तियाँ झड़ना, विकास रुकना',
+        ml: 'ചിരിച്ച ഇലകൾ, ഇലപൊളിക്കൽ, വളർച്ച മുരടല്‍'
+      },
+      prevention: {
+        en: 'Crop rotation, remove weeds',
+        hi: 'फसल चक्र अपनाएँ, खरपतवार हटाएँ',
+        ml: 'ഫലങ്ങൾ മാറ്റി നട്ടൽ, കളകൾ നീക്കം ചെയ്യുക'
+      },
+      treatment: {
+        en: 'Apply imidacloprid or carbaryl',
+        hi: 'इमिडाक्लोप्रिड या कार्बारील छिड़कें',
+        ml: 'ഇമിഡാക്ലോപ്രിഡ് അല്ലെങ്കിൽ കാർബാരിൽ തളിക്കുക'
+      }
+    }
+  ]
+},
+
+cotton: {
+  name: { en: 'Cotton', hi: 'कपास', ml: 'പറമ്പ്' },
+  pests: [
+    {
+      name: { en: 'Pink Bollworm', hi: 'गुलाबी बॉलवर्म', ml: 'പിങ്ക് ബോൾവർം' },
+      severity: 'high',
+      symptoms: {
+        en: 'Bolls damaged, premature opening, reduced lint quality',
+        hi: 'फल क्षतिग्रस्त, समय से पहले खुलना, कपास की गुणवत्ता कम',
+        ml: 'ബോൾസ് കേടുപാട്, മുമ്പ് തുറന്നൽ, ലിന്റ് ഗുണനിലവാരം കുറവ്'
+      },
+      prevention: {
+        en: 'Use resistant varieties, destroy affected bolls',
+        hi: 'प्रतिरोधी किस्में लगाएँ, प्रभावित बॉल्स नष्ट करें',
+        ml: 'പ്രതിരോധശേഷിയുള്ള ഇനങ്ങൾ നടുക, ബാധിച്ച ബോൾസ് നശിപ്പിക്കുക'
+      },
+      treatment: {
+        en: 'Spray spinosad or indoxacarb',
+        hi: 'स्पिनोसैड या इंडॉक्साकार्ब छिड़कें',
+        ml: 'സ്പിനോസാഡ് അല്ലെങ്കിൽ ഇൻഡോക്സാകാർബ് തളിക്കുക'
+      }
+    },
+    {
+      name: { en: 'Aphids', hi: 'माहू', ml: 'എഫിഡ്സ്' },
+      severity: 'medium',
+      symptoms: {
+        en: 'Yellowing leaves, sticky honeydew, sooty mold',
+        hi: 'पीली पत्तियाँ, चिपचिपा शहद, कालीन सड़न',
+        ml: 'മഞ്ഞ ഇലകൾ, ചിപ്‌ചിപി തേൻ, കൂലി പൂർണ്ണം'
+      },
+      prevention: {
+        en: 'Remove weeds, encourage natural predators',
+        hi: 'खरपतवार हटाएँ, प्राकृतिक शिकारी बढ़ाएँ',
+        ml: 'കളകൾ നീക്കം ചെയ്യുക, സ്വാഭാവിക പേറെഡേറ്റർമാർ കൂട്ടുക'
+      },
+      treatment: {
+        en: 'Spray neem oil or imidacloprid',
+        hi: 'नीम का तेल या इमिडाक्लोप्रिड छिड़कें',
+        ml: 'നീം എണ്ണ അല്ലെങ്കിൽ ഇമിഡാക്ലോപ്രിഡ് തളിക്കുക'
+      }
+    }
+  ]
+},
+
+maize: {
+  name: { en: 'Maize', hi: 'मक्का', ml: 'ചോളം' },
+  pests: [
+    {
+      name: { en: 'Fall Armyworm', hi: 'फॉल आर्मीवर्म', ml: 'ഫാൾ ആർമിവേം' },
+      severity: 'high',
+      symptoms: {
+        en: 'Holes in leaves, damaged growing points, frass in whorl',
+        hi: 'पत्तियों में छेद, बढ़ते बिंदुओं को नुकसान, कुंडली में मल',
+        ml: 'ഇലകളിൽ ദ്വാരങ്ങൾ, വളരുന്ന പോയിന്റുകൾക്ക് കേടുപാടുകൾ'
+      },
+      prevention: {
+        en: 'Early planting, intercropping, pheromone traps',
+        hi: 'जल्दी बुवाई, अंतर-फसल, फेरोमोन ट्रैप',
+        ml: 'നേരത്തെ നടൽ, ഇടവിള, ഫെറോമോൺ കെണികൾ'
+      },
+      treatment: {
+        en: 'Apply chlorantraniliprole, spinetoram insecticides',
+        hi: 'क्लोरैंट्रानिलिप्रोल, स्पिनेटोरम कीटनाशकों का प्रयोग',
+        ml: 'ക്ലോറാന്ത്രാനിലിപ്രോൾ, സ്പിനെറ്റോറാം കീടനാശിനികൾ പ്രയോഗിക്കുക'
+      }
+    },
+    {
+      name: { en: 'Maize Weevil', hi: 'मक्का की कीड़ा', ml: 'മൈസ് വീൽ' },
+      severity: 'medium',
+      symptoms: {
+        en: 'Damaged kernels, reduced yield, holes in grains',
+        hi: 'कर्नेल क्षतिग्रस्त, उत्पादन कम, अनाज में छेद',
+        ml: 'കണികകൾ കേടുപാട്, വിളവ് കുറവ്, ധാന്യത്തിൽ ദ്വാരങ്ങൾ'
+      },
+      prevention: {
+        en: 'Proper storage, remove infested grains',
+        hi: 'उचित भंडारण, प्रभावित अनाज हटाएँ',
+        ml: 'ശരിയായ സംഭരണം, ബാധിച്ച ധാന്യം നീക്കം ചെയ്യുക'
+      },
+      treatment: {
+        en: 'Use insecticides or fumigation',
+        hi: 'कीटनाशक या धूमन का प्रयोग करें',
+        ml: 'കീടനാശിനികൾ അല്ലെങ്കിൽ ധൂമന പ്രയോഗിക്കുക'
+      }
+    }
+  ]
+},
+banana: {
+  name: { en: 'Banana', hi: 'केला', ml: 'വഴുതന' },
+  pests: [
+    {
+      name: { en: 'Banana Weevil', hi: 'केला कीड़ा', ml: 'വഴുതന വീൽ' },
+      severity: 'high',
+      symptoms: {
+        en: 'Wilting, damaged corms, reduced bunch size',
+        hi: 'मुरझाना, क्षतिग्रस्त कर्न, गुच्छे का आकार कम',
+        ml: 'വാടൽ, കേടായ കോർം, ചെടിയുടെ പൊക്കം കുറവ്'
+      },
+      prevention: {
+        en: 'Use healthy planting material, remove infected plants',
+        hi: 'स्वस्थ पौधे लगाएँ, संक्रमित पौध हटाएँ',
+        ml: 'ആരോഗ്യകരമായ നടൽ വസ്തു ഉപയോഗിക്കുക, ബാധിച്ച ചെടികൾ നീക്കം ചെയ്യുക'
+      },
+      treatment: {
+        en: 'Apply carbofuran granules, trap adults',
+        hi: 'कार्बोफुरान दाने डालें, वयस्कों को फँसाएँ',
+        ml: 'കാർബോഫുറാൻ ഗ്രാന്യൂളുകൾ പ്രയോഗിക്കുക, മുതിർന്ന കീടങ്ങൾ പിടിക്കുക'
+      }
+    },
+    {
+      name: { en: 'Nematodes', hi: 'वृत्तजोंड़ी', ml: 'നമാറ്റോഡ്' },
+      severity: 'medium',
+      symptoms: {
+        en: 'Root lesions, stunted growth, yellow leaves',
+        hi: 'जड़ में घाव, विकास रुकना, पत्तियाँ पीली',
+        ml: 'വേരിൽ ഗ്രന്ഥികൾ, വളർച്ച മുരടൽ, ഇലകൾ മഞ്ഞയാകൽ'
+      },
+      prevention: {
+        en: 'Use nematode-free planting material, rotate crops',
+        hi: 'कीट-मुक्त पौधे लगाएँ, फसल चक्र अपनाएँ',
+        ml: 'നമാറ്റോഡ്-രഹിത നടൽ വസ്തു ഉപയോഗിക്കുക, വിളകൾ മടങ്ങി നടൽ'
+      },
+      treatment: {
+        en: 'Soil fumigation, apply nematicides',
+        hi: 'मिट्टी की धूमन, कीटनाशक का प्रयोग करें',
+        ml: 'മണ്ണ് ധൂമനം, നമാറ്റിസൈഡ് പ്രയോഗിക്കുക'
+      }
+    }
+  ]
+},
+
+chili: {
+  name: { en: 'Chili', hi: 'मिर्च', ml: 'മുളക്' },
+  pests: [
+    {
+      name: { en: 'Thrips', hi: 'थ्रिप्स', ml: 'ത്രിപ്സ്' },
+      severity: 'medium',
+      symptoms: {
+        en: 'Silvering of leaves, deformed fruits, reduced yield',
+        hi: 'पत्तियों का चांदी जैसा होना, विकृत फल, उत्पादन कम',
+        ml: 'ഇലകളിൽ വെള്ളിപ്പോലെ ചിങ്ങൽ, വളർച്ചയ്‌ക്കുള്ള പഴങ്ങൾ, വിളവ് കുറവ്'
+      },
+      prevention: {
+        en: 'Remove infected leaves, avoid overcrowding',
+        hi: 'संक्रमित पत्तियाँ हटाएँ, अधिक घनी न लगाएँ',
+        ml: 'ബാധിച്ച ഇലകൾ നീക്കം ചെയ്യുക, അടുപ്പത്തിൽ നടൽ ഒഴിവാക്കുക'
+      },
+      treatment: {
+        en: 'Spray neem oil or spinosad',
+        hi: 'नीम का तेल या स्पिनोसैड छिड़कें',
+        ml: 'നീം എണ്ണ അല്ലെങ്കിൽ സ്പിനോസാഡ് തളിക്കുക'
+      }
+    },
+    {
+      name: { en: 'Red Spider Mite', hi: 'लाल मकड़ी', ml: 'ചുവന്ന ചിരിയണ്ട' },
+      severity: 'high',
+      symptoms: {
+        en: 'Webbing on leaves, yellowing, leaf drop',
+        hi: 'पत्तियों पर जाल, पत्तियाँ पीली, झड़ना',
+        ml: 'ഇലകളിൽ നെറ്റ്, ഇലകൾ മഞ്ഞയാകൽ, വീഴൽ'
+      },
+      prevention: {
+        en: 'Maintain humidity, remove infested leaves',
+        hi: 'आर्द्रता बनाए रखें, संक्रमित पत्तियाँ हटाएँ',
+        ml: 'നെമ്മദാവസ്ഥ പാലിക്കുക, ബാധിച്ച ഇലകൾ നീക്കം ചെയ്യുക'
+      },
+      treatment: {
+        en: 'Spray miticides or neem oil',
+        hi: 'माइटिसाइड या नीम का तेल छिड़कें',
+        ml: 'മൈറ്റിസൈഡ് അല്ലെങ്കിൽ നീം എണ്ണ തളിക്കുക'
+      }
+    }
+  ]
+},
+
+cucumber: {
+  name: { en: 'Cucumber', hi: 'खीरा', ml: 'സൗരഭി' },
+  pests: [
+    {
+      name: { en: 'Cucumber Beetle', hi: 'खीरे का कीट', ml: 'സൗരഭി വീൽ' },
+      severity: 'medium',
+      symptoms: {
+        en: 'Chewed leaves, stunted growth, yellowing',
+        hi: 'चबाई हुई पत्तियाँ, विकास रुकना, पत्तियाँ पीली',
+        ml: 'ചിരിച്ച ഇലകൾ, വളർച്ച മുരടൽ, ഇലകൾ മഞ്ഞയാകൽ'
+      },
+      prevention: {
+        en: 'Use row covers, remove weeds',
+        hi: 'रो कवर का उपयोग करें, खरपतवार हटाएँ',
+        ml: 'റോ കവർ ഉപയോഗിക്കുക, കളകൾ നീക്കം ചെയ്യുക'
+      },
+      treatment: {
+        en: 'Spray carbaryl or neem oil',
+        hi: 'कार्बारील या नीम का तेल छिड़कें',
+        ml: 'കാർബാരിൽ അല്ലെങ്കിൽ നീം എണ്ണ തളിക്കുക'
+      }
+    },
+    {
+      name: { en: 'Powdery Mildew', hi: 'पाउडरी मिल्ड्यू', ml: 'പൗഡറി മിൽഡ്യു' },
+      severity: 'high',
+      symptoms: {
+        en: 'White powder on leaves, distorted growth, reduced yield',
+        hi: 'पत्तियों पर सफेद पाउडर, विकृत विकास, उत्पादन कम',
+        ml: 'ഇലകളിൽ വെള്ള പൊടി, വളർച്ച विकൃത, വിളവ് കുറവ്'
+      },
+      prevention: {
+        en: 'Ensure proper spacing, avoid overhead watering',
+        hi: 'उचित दूरी बनाए रखें, ऊपर से पानी देने से बचें',
+        ml: 'ശരിയായ അകലം പാലിക്കുക, മേലിൽ വെള്ളം കൊടുക്കുന്നത് ഒഴിവാക്കുക'
+      },
+      treatment: {
+        en: 'Apply sulfur-based fungicides',
+        hi: 'सल्फर आधारित फफूंदी नाशक का प्रयोग करें',
+        ml: 'സൾഫർ അടിസ്ഥാനമുള്ള ഫംഗിസൈഡ് പ്രയോഗിക്കുക'
+      }
+    }
+  ]
+}
+
+
 }
 
 const PestAlert = () => {

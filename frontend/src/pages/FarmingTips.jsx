@@ -132,6 +132,214 @@ const tips = [
         'കൃഷി അവശിഷ്ടങ്ങൾ പുനരുപയോഗിക്കുക'
       ]
     }
+  },
+  {
+    icon: Zap,
+    color: 'from-purple-500 to-indigo-700',
+    title: {
+      en: 'Weed Management',
+      hi: 'खरपतवार प्रबंधन',
+      ml: 'കുറ്റിച്ചെടി നിയന്ത്രണം'
+    },
+    points: {
+      en: [
+        'Weed control during critical crop stages',
+        'Use mulching or cover crops to suppress weeds',
+        'Apply herbicides judiciously when needed'
+      ],
+      hi: [
+        'फसल के महत्वपूर्ण चरणों में खरपतवार नियंत्रण करें',
+        'खरपतवार को दबाने के लिए मल्चिंग या कवर फसल अपनाएं',
+        'जरूरत पड़ने पर ही शाकनाशी का उपयोग करें'
+      ],
+      ml: [
+        'വിളയുടെ പ്രധാന ഘട്ടങ്ങളിൽ കുറ്റിച്ചെടി നിയന്ത്രിക്കുക',
+        'മൾച്ചിംഗ് അല്ലെങ്കിൽ മൂടിവിളകൾ ഉപയോഗിച്ച് കുറ്റിച്ചെടികൾ തടയുക',
+        'ആവശ്യമായപ്പോൾ മാത്രം കീടനാശിനികൾ പ്രയോഗിക്കുക'
+      ]
+    }
+  },
+  {
+    icon: Lightbulb,
+    color: 'from-cyan-500 to-sky-600',
+    title: {
+      en: 'Harvesting Tips',
+      hi: 'कटाई सुझाव',
+      ml: 'വിളവെടുപ്പ് നിര്‍ദേശങ്ങള്‍'
+    },
+    points: {
+      en: [
+        'Harvest crops at the right maturity stage',
+        'Avoid delays to prevent post-harvest losses',
+        'Use clean tools and proper storage facilities'
+      ],
+      hi: [
+        'सही परिपक्वता चरण पर फसल की कटाई करें',
+        'कटाई में देरी से बचें ताकि नुकसान न हो',
+        'साफ औजार और उचित भंडारण सुविधाएं अपनाएं'
+      ],
+      ml: [
+        'ശരിയായ പക്വതയിൽ വിളവെടുപ്പ് നടത്തുക',
+        'വിളവെടുപ്പിൽ വൈകിപ്പിക്കാതെ നഷ്ടം ഒഴിവാക്കുക',
+        'ശുദ്ധമായ ഉപകരണങ്ങളും നല്ല സംഭരണ സംവിധാനങ്ങളും ഉപയോഗിക്കുക'
+      ]
+    }
+  },
+  {
+    icon: Sun,
+    color: 'from-amber-500 to-orange-700',
+    title: {
+      en: 'Climate Adaptation',
+      hi: 'जलवायु अनुकूलन',
+      ml: 'കാലാവസ്ഥ അനുയോജനം'
+    },
+    points: {
+      en: [
+        'Choose crops suitable for changing climate',
+        'Use drought and flood-tolerant varieties',
+        'Adopt rainwater harvesting techniques'
+      ],
+      hi: [
+        'बदलती जलवायु के लिए उपयुक्त फसलें चुनें',
+        'सूखा और बाढ़ सहनशील किस्में अपनाएं',
+        'वर्षा जल संचयन तकनीकें अपनाएं'
+      ],
+      ml: [
+        'മാറുന്ന കാലാവസ്ഥയ്ക്ക് അനുയോജ്യമായ വിളകൾ തിരഞ്ഞെടുക്കുക',
+        'വറ്റലും വെള്ളപ്പൊക്കവും സഹിക്കുന്ന ഇനങ്ങൾ ഉപയോഗിക്കുക',
+        'മഴവെള്ള സംഭരണം സ്വീകരിക്കുക'
+      ]
+    }
+  },
+  {
+    icon: Shield,
+    color: 'from-red-500 to-rose-700',
+    title: {
+      en: 'Post-Harvest Management',
+      hi: 'कटाई के बाद प्रबंधन',
+      ml: 'വിളവെടുപ്പ് ശേഷമുള്ള നിയന്ത്രണം'
+    },
+    points: {
+      en: [
+        'Sort and grade produce before storage',
+        'Use proper packaging to reduce damage',
+        'Ensure pest-free storage conditions'
+      ],
+      hi: [
+        'भंडारण से पहले उपज की छंटाई और ग्रेडिंग करें',
+        'नुकसान कम करने के लिए सही पैकेजिंग करें',
+        'कीट-मुक्त भंडारण सुनिश्चित करें'
+      ],
+      ml: [
+        'സംഭരണത്തിന് മുമ്പ് വിളവെടുപ്പ് വസ്തുക്കൾ ക്രമീകരിക്കുകയും ഗ്രേഡ് ചെയ്യുകയും ചെയ്യുക',
+        'നാശനഷ്ടം കുറയ്ക്കാൻ ശരിയായ പാക്കേജിംഗ് ചെയ്യുക',
+        'കീടരഹിത സംഭരണം ഉറപ്പാക്കുക'
+      ]
+    }
+  },
+  {
+    icon: Leaf,
+    color: 'from-green-500 to-emerald-700',
+    title: {
+      en: 'Organic Farming',
+      hi: 'जैविक खेती',
+      ml: 'ഓർഗാനിക് കൃഷി'
+    },
+    points: {
+      en: [
+        'Use natural fertilizers and biopesticides',
+        'Avoid synthetic chemicals in farming',
+        'Promote soil biodiversity and health'
+      ],
+      hi: [
+        'प्राकृतिक उर्वरक और जैव-कीटनाशक का उपयोग करें',
+        'खेती में रासायनिक उर्वरकों से बचें',
+        'मिट्टी की जैव विविधता और स्वास्थ्य को बढ़ावा दें'
+      ],
+      ml: [
+        'സ്വാഭാവിക വളങ്ങളും ജൈവ കീടനാശിനികളും ഉപയോഗിക്കുക',
+        'കൃത്രിമ രാസവളങ്ങൾ ഒഴിവാക്കുക',
+        'മണ്ണിലെ ജൈവ വൈവിധ്യവും ആരോഗ്യവും പ്രോത്സാഹിപ്പിക്കുക'
+      ]
+    }
+  },
+  {
+    icon: Droplets,
+    color: 'from-sky-500 to-blue-700',
+    title: {
+      en: 'Water Conservation',
+      hi: 'जल संरक्षण',
+      ml: 'ജല സംരക്ഷണം'
+    },
+    points: {
+      en: [
+        'Build farm ponds for water storage',
+        'Use micro-irrigation methods',
+        'Plant trees to maintain groundwater levels'
+      ],
+      hi: [
+        'पानी के भंडारण के लिए खेत तालाब बनाएं',
+        'सूक्ष्म सिंचाई विधियों का उपयोग करें',
+        'भूजल स्तर बनाए रखने के लिए पेड़ लगाएं'
+      ],
+      ml: [
+        'വെള്ള സംഭരണത്തിനായി ഫാം കുളങ്ങൾ നിർമ്മിക്കുക',
+        'മൈക്രോ-ജലസേചന രീതികൾ ഉപയോഗിക്കുക',
+        'ഭൂഗർഭജല നിലനിർത്താൻ മരങ്ങൾ നടുക'
+      ]
+    }
+  },
+  {
+    icon: Sprout,
+    color: 'from-teal-500 to-cyan-700',
+    title: {
+      en: 'Seed Selection',
+      hi: 'बीज चयन',
+      ml: 'ബീജ തിരഞ്ഞെടുപ്പ്'
+    },
+    points: {
+      en: [
+        'Choose certified, high-yielding seeds',
+        'Use disease-free seeds for better crops',
+        'Follow recommended seed rate and spacing'
+      ],
+      hi: [
+        'प्रमाणित, उच्च उपज वाले बीज चुनें',
+        'बेहतर फसल के लिए रोग-मुक्त बीज का उपयोग करें',
+        'अनुशंसित बीज दर और दूरी का पालन करें'
+      ],
+      ml: [
+        'സർട്ടിഫൈഡ്, ഉയർന്ന വിളവുള്ള വിത്തുകൾ തിരഞ്ഞെടുക്കുക',
+        'മെച്ചപ്പെട്ട വിളയ്ക്കായി രോഗരഹിത വിത്തുകൾ ഉപയോഗിക്കുക',
+        'ശുപാർശ ചെയ്യുന്ന വിത്ത് നിരക്കും ഇടവിടവും പാലിക്കുക'
+      ]
+    }
+  },
+  {
+    icon: Lightbulb,
+    color: 'from-indigo-500 to-purple-700',
+    title: {
+      en: 'Farm Mechanization',
+      hi: 'कृषि यंत्रीकरण',
+      ml: 'കൃഷി മെക്കാനൈസേഷൻ'
+    },
+    points: {
+      en: [
+        'Use modern tools to save labor costs',
+        'Adopt precision farming technologies',
+        'Ensure regular maintenance of equipment'
+      ],
+      hi: [
+        'श्रम लागत बचाने के लिए आधुनिक उपकरण अपनाएं',
+        'सटीक खेती तकनीकें अपनाएं',
+        'उपकरणों का नियमित रखरखाव करें'
+      ],
+      ml: [
+        'തൊഴിൽ ചെലവ് കുറയ്ക്കാൻ ആധുനിക ഉപകരണങ്ങൾ ഉപയോഗിക്കുക',
+        'പ്രിസിഷൻ കൃഷി സാങ്കേതികവിദ്യകൾ സ്വീകരിക്കുക',
+        'ഉപകരണങ്ങളുടെ സ്ഥിരമായ പരിപാലനം ഉറപ്പാക്കുക'
+      ]
+    }
   }
 ]
 
@@ -178,4 +386,3 @@ const FarmingTips = () => {
 }
 
 export default FarmingTips
-
