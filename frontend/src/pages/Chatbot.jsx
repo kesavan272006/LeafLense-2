@@ -1,12 +1,15 @@
 import { useState, useRef, useEffect } from 'react'
 import { MessageCircle, Send, Bot, User, Sparkles } from 'lucide-react'
+import aiService from '../services/aiService.js'
+import { useLanguage } from '../contexts/LanguageContext'
 
 const Chatbot = () => {
+  const { t, currentLanguage } = useLanguage()
   const [messages, setMessages] = useState([
     {
       id: 1,
       type: 'bot',
-      content: "Hello! I'm your AI Agriculture Assistant. I can help you with crop management, disease identification, fertilizer recommendations, and general farming advice. What would you like to know?",
+      content: t('chatbotWelcome'),
       timestamp: new Date()
     }
   ])
@@ -38,8 +41,8 @@ const Chatbot = () => {
     setIsTyping(true)
 
     try {
-      // Call Gemini AI service
-      const aiResponse = await aiService.processQuery(userQuery, 'en', 'Delhi')
+      // Call AI service
+      const aiResponse = await aiService.processQuery(userQuery, currentLanguage, 'Delhi')
       
       const botMessage = {
         id: messages.length + 2,
@@ -57,7 +60,7 @@ const Chatbot = () => {
       const botMessage = {
         id: messages.length + 2,
         type: 'bot',
-        content: "I apologize, but I'm having trouble connecting to my AI services right now. Please try again in a moment, or check if your API keys are configured properly.",
+        content: "I apologize, but I'm having trouble processing your request right now. Please try again in a moment.",
         timestamp: new Date(),
         isError: true
       }
@@ -76,11 +79,11 @@ const Chatbot = () => {
   }
 
   const quickQuestions = [
-    "How can I improve my crop yield?",
-    "What fertilizer should I use for wheat?",
-    "How to prevent plant diseases?",
-    "When is the best time to harvest?",
-    "How much water do my crops need?"
+    t('howToImproveYield'),
+    t('whatFertilizerForWheat'),
+    t('howToPreventDiseases'),
+    t('bestTimeToHarvest'),
+    t('howMuchWater')
   ]
 
   const handleQuickQuestion = (question) => {
@@ -88,7 +91,7 @@ const Chatbot = () => {
   }
 
   return (
-    <div className="p-6 h-full flex flex-col">
+    <div className="p-6 min-h-screen flex flex-col">
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center space-x-4">
@@ -96,13 +99,13 @@ const Chatbot = () => {
             <MessageCircle className="h-6 w-6 text-white" />
           </div>
           <div>
-            <h1 className="text-3xl font-bold text-white">AI Assistant</h1>
-            <p className="text-slate-400">Your smart farming companion</p>
+            <h1 className="text-3xl font-bold text-white">{t('chatbotTitle')}</h1>
+            <p className="text-slate-400">{t('chatbotSubtitle')}</p>
           </div>
         </div>
         <div className="flex items-center space-x-2 text-slate-400">
           <Sparkles className="h-5 w-5 animate-pulse text-emerald-400" />
-          <span className="text-sm">Always Learning</span>
+          <span className="text-sm">{t('alwaysLearning')}</span>
         </div>
       </div>
 
@@ -180,7 +183,7 @@ const Chatbot = () => {
         {/* Quick Questions */}
         {messages.length === 1 && (
           <div className="px-6 py-4 border-t border-slate-700/50">
-            <h3 className="text-sm font-medium text-slate-300 mb-3">Quick Questions:</h3>
+            <h3 className="text-sm font-medium text-slate-300 mb-3">{t('quickQuestions')}</h3>
             <div className="flex flex-wrap gap-2">
               {quickQuestions.map((question, index) => (
                 <button
@@ -203,7 +206,7 @@ const Chatbot = () => {
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyPress={handleKeyPress}
-                placeholder="Ask me anything about farming, crops, or agriculture..."
+                placeholder={t('askMeAnything')}
                 className="w-full px-4 py-3 bg-slate-700/50 border border-slate-600 rounded-lg text-white placeholder-slate-400 input-focus resize-none"
                 rows={1}
                 style={{
@@ -227,7 +230,7 @@ const Chatbot = () => {
             </button>
           </div>
           <p className="text-xs text-slate-500 mt-2">
-            Press Enter to send, Shift+Enter for new line
+            {t('pressEnterToSend')}
           </p>
         </div>
       </div>

@@ -14,65 +14,8 @@ import {
   Zap,
   Brain
 } from 'lucide-react'
+import { useLanguage } from '../../contexts/LanguageContext'
 
-const navigation = [
-  { 
-    name: 'Dashboard', 
-    href: '/dashboard', 
-    icon: LayoutDashboard,
-    description: 'Overview & Analytics',
-    gradient: 'from-blue-500 to-blue-600'
-  },
-  { 
-    name: 'Crop Yield', 
-    href: '/crop-yield', 
-    icon: Wheat,
-    description: 'Predict harvest yields',
-    gradient: 'from-agri-500 to-agri-600'
-  },
-  { 
-    name: 'Disease Detection', 
-    href: '/disease-detection', 
-    icon: Bug,
-    description: 'Analyze plant health',
-    gradient: 'from-red-500 to-red-600'
-  },
-  { 
-    name: 'Price Prediction', 
-    href: '/price-prediction', 
-    icon: TrendingUp,
-    description: 'Forecast crop prices',
-    gradient: 'from-green-500 to-emerald-600'
-  },
-  { 
-    name: 'Fertilizer Guide', 
-    href: '/fertilizer', 
-    icon: Beaker,
-    description: 'NPK recommendations',
-    gradient: 'from-soil-500 to-soil-600'
-  },
-  { 
-    name: 'AI Insights', 
-    href: '/insights', 
-    icon: Lightbulb,
-    description: 'Smart recommendations',
-    gradient: 'from-purple-500 to-purple-600'
-  },
-  { 
-    name: 'AI Assistant', 
-    href: '/chat', 
-    icon: MessageCircle,
-    description: 'Chat with AI',
-    gradient: 'from-emerald-500 to-emerald-600'
-  },
-  { 
-    name: 'Voice Assistant', 
-    href: '/voice-chat', 
-    icon: Mic,
-    description: 'Voice in local languages',
-    gradient: 'from-pink-500 to-pink-600'
-  },
-]
 
 const stats = [
   { label: 'Accuracy', value: '94.2%', icon: TrendingUp, color: 'text-agri-400' },
@@ -82,6 +25,66 @@ const stats = [
 
 const Sidebar = ({ open, setOpen }) => {
   const location = useLocation()
+  const { t } = useLanguage()
+
+  const navigation = [
+    { 
+      name: t('dashboard'), 
+      href: '/dashboard', 
+      icon: LayoutDashboard,
+      description: t('overviewAnalytics'),
+      gradient: 'from-blue-500 to-blue-600'
+    },
+    { 
+      name: t('cropYield'), 
+      href: '/crop-yield', 
+      icon: Wheat,
+      description: t('predictHarvestYields'),
+      gradient: 'from-agri-500 to-agri-600'
+    },
+    { 
+      name: t('diseaseDetection'), 
+      href: '/disease-detection', 
+      icon: Bug,
+      description: t('analyzePlantHealth'),
+      gradient: 'from-red-500 to-red-600'
+    },
+    { 
+      name: t('pricePrediction'), 
+      href: '/price-prediction', 
+      icon: TrendingUp,
+      description: t('forecastCropPrices'),
+      gradient: 'from-green-500 to-emerald-600'
+    },
+    { 
+      name: t('fertilizerGuide'), 
+      href: '/fertilizer', 
+      icon: Beaker,
+      description: t('npkRecommendations'),
+      gradient: 'from-soil-500 to-soil-600'
+    },
+    { 
+      name: t('aiInsights'), 
+      href: '/insights', 
+      icon: Lightbulb,
+      description: t('smartRecommendations'),
+      gradient: 'from-purple-500 to-purple-600'
+    },
+    { 
+      name: t('aiAssistant'), 
+      href: '/chat', 
+      icon: MessageCircle,
+      description: t('chatWithAi'),
+      gradient: 'from-emerald-500 to-emerald-600'
+    },
+    { 
+      name: t('voiceAssistant'), 
+      href: '/voice-chat', 
+      icon: Mic,
+      description: t('voiceInLocalLanguages'),
+      gradient: 'from-pink-500 to-pink-600'
+    },
+  ]
 
   return (
     <>
@@ -96,8 +99,8 @@ const Sidebar = ({ open, setOpen }) => {
                   <Leaf className="h-7 w-7 text-white" />
                 </div>
                 <div>
-                  <h1 className="text-2xl font-bold text-gradient">AI Agri-Advisor</h1>
-                  <p className="text-sm text-slate-400">Smart Agriculture Assistant</p>
+                  <h1 className="text-2xl font-bold text-gradient">{t('appTitle')}</h1>
+                  <p className="text-sm text-slate-400">{t('appSubtitle')}</p>
                 </div>
               </div>
             </div>
@@ -169,8 +172,8 @@ const Sidebar = ({ open, setOpen }) => {
                 <Leaf className="h-6 w-6 text-white" />
               </div>
               <div>
-                <h1 className="text-lg font-bold text-gradient">AI Agri-Advisor</h1>
-                <p className="text-xs text-slate-400">Smart Agriculture Assistant</p>
+                <h1 className="text-lg font-bold text-gradient">{t('appTitle')}</h1>
+                <p className="text-xs text-slate-400">{t('appSubtitle')}</p>
               </div>
             </div>
             <button
