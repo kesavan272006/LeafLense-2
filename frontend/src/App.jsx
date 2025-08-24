@@ -3,6 +3,7 @@ import Layout from './components/layout/Layout'
 import Dashboard from './pages/Dashboard'
 import CropYield from './pages/CropYield'
 import DiseaseDetection from './pages/DiseaseDetection'
+import PricePrediction from './pages/PricePrediction'
 import FertilizerRecommendation from './pages/FertilizerRecommendation'
 import Insights from './pages/Insights'
 import Chatbot from './pages/Chatbot'
@@ -20,6 +21,7 @@ function App() {
         <Route path="/crop-yield" element={<Layout><CropYield /></Layout>} />
         <Route path="/profile" element={<Layout><Profile /></Layout>} />
         <Route path="/disease-detection" element={<Layout><DiseaseDetection /></Layout>} />
+        <Route path="/price-prediction" element={<Layout><PricePrediction /></Layout>} />
         <Route path="/fertilizer" element={<Layout><FertilizerRecommendation /></Layout>} />
         <Route path="/insights" element={<Layout><Insights /></Layout>} />
         <Route path="/chat" element={<Layout><Chatbot /></Layout>} />

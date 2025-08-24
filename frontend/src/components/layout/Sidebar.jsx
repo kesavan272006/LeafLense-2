@@ -38,6 +38,13 @@ const navigation = [
     gradient: 'from-red-500 to-red-600'
   },
   { 
+    name: 'Price Prediction', 
+    href: '/price-prediction', 
+    icon: TrendingUp,
+    description: 'Forecast crop prices',
+    gradient: 'from-green-500 to-emerald-600'
+  },
+  { 
     name: 'Fertilizer Guide', 
     href: '/fertilizer', 
     icon: Beaker,
