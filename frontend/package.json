@@ -17,6 +17,7 @@
     "firebase": "^12.1.0",
     "framer-motion": "^11.18.2",
     "google-translate-api-x": "^10.7.1",
+    "jsqr": "^1.4.0",
     "leaflet": "^1.9.4",
     "lucide-react": "^0.453.0",
     "react": "^18.3.1",

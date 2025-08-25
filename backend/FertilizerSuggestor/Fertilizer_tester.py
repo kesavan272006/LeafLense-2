@@ -1,12 +1,11 @@
 import joblib
 import pandas as pd
 import json
-import google.generativeai as genai
-
+from langchain_google_genai import ChatGoogleGenerativeAI
+import os
 # Load your trained scikit-learn model
 model, columns = joblib.load("fertilizer_model.pkl")
 GEMINI_API_KEY = "AIzaSyCt5HrCdlC_eBzEdHnnyPb7mqRXDhhmSLk"
-genai.configure(api_key=GEMINI_API_KEY)
 def predict_fertilizer(input_data: dict):
     new_data = pd.DataFrame([input_data])
     new_data = pd.get_dummies(new_data)
@@ -41,8 +40,12 @@ user_input = (
 
 
 # Use Gemini to extract structured JSON
-gemini_model = genai.GenerativeModel("gemini-2.0-flash")
-response = gemini_model.generate_content(user_input)
+llm = ChatGoogleGenerativeAI(
+    api_key=os.getenv("GOOGLE_API_KEY"),
+    model='gemini-1.5-flash'
+)
+
+response = llm.invoke(user_input)
 
 # The content is usually in response["candidates"][0]["content"]
 

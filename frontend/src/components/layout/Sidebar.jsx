@@ -20,9 +20,154 @@ import {
   BookOpen,
   Database,
   TestTube,
-  PieChart
+  PieChart,   
+  Store,
+  ShoppingCart,
+  Sparkles
 } from 'lucide-react'
-import { useLanguage } from '../../contexts/LanguageContext'
+
+const navigation = [
+  { 
+    name: 'Dashboard', 
+    href: '/dashboard', 
+    icon: LayoutDashboard,
+    description: 'Overview & Analytics',
+    gradient: 'from-blue-500 to-blue-600'
+  },
+  { 
+    name: 'Crop Yield', 
+    href: '/crop-yield', 
+    icon: Wheat,
+    description: 'Predict harvest yields',
+    gradient: 'from-agri-500 to-agri-600'
+  },
+  { 
+    name: 'Disease Detection', 
+    href: '/disease-detection', 
+    icon: Bug,
+    description: 'Analyze plant health',
+    gradient: 'from-red-500 to-red-600'
+  },
+  {
+    name: 'Price Prediction',
+    href: '/price-prediction',
+    icon: TrendingUp,
+    description: 'Forecast crop prices',
+    gradient: 'from-green-500 to-emerald-600'
+  },
+  { 
+    name: 'Weather Alerts', 
+    href: '/weather-alerts', 
+    icon: Shield,
+    description: 'Live weather & alerts',
+    gradient: 'from-cyan-500 to-cyan-600'
+  },
+  { 
+    name: 'Fertilizer Guide', 
+    href: '/fertilizer', 
+    icon: Beaker,
+    description: 'NPK recommendations',
+    gradient: 'from-soil-500 to-soil-600'
+  },
+  { 
+    name: 'AI Insights', 
+    href: '/insights', 
+    icon: Lightbulb,
+    description: 'Smart recommendations',
+    gradient: 'from-purple-500 to-purple-600'
+  },
+  {
+    name: 'Crop Calendar',
+    href: '/crop-calendar',
+    icon: Calendar,
+    description: 'Sowing guidance',
+    gradient: 'from-indigo-500 to-indigo-600'
+  },
+  {
+    name: 'Pest Alert',
+    href: '/pest-alert',
+    icon: AlertTriangle,
+    description: 'Pest knowledge base',
+    gradient: 'from-orange-500 to-orange-600'
+  },
+  {
+    name: 'Seed Calculator',
+    href: '/seed-calculator',
+    icon: Calculator,
+    description: 'Calculate seed rates',
+    gradient: 'from-teal-500 to-teal-600'
+  },
+  {
+    name: 'Cost Estimator',
+    href: '/cost-estimator',
+    icon: DollarSign,
+    description: 'Farming cost estimation',
+    gradient: 'from-amber-500 to-amber-600'
+  },
+  {
+    name: 'Farming Tips',
+    href: '/farming-tips',
+    icon: BookOpen,
+    description: 'Practical farming advice',
+    gradient: 'from-cyan-500 to-cyan-600'
+  },
+  {
+    name: 'Encyclopedia',
+    href: '/encyclopedia',
+    icon: Database,
+    description: 'Farming knowledge base',
+    gradient: 'from-violet-500 to-violet-600'
+  },
+  {
+    name: 'Soil Checker',
+    href: '/soil-checker',
+    icon: TestTube,
+    description: 'Soil suitability check',
+    gradient: 'from-lime-500 to-lime-600'
+  },
+  {
+    name: 'Profit Calculator',
+    href: '/profit-calculator',
+    icon: PieChart,
+    description: 'Crop profitability',
+    gradient: 'from-rose-500 to-rose-600'
+  },
+  { 
+    name: 'Mandi Prices', 
+    href: '/mandi-prices', 
+    icon: Store,
+    description: 'Live market rates',
+    gradient: 'from-orange-500 to-orange-600'
+  },
+  { 
+    name: 'Crop Marketplace', 
+    href: '/marketplace', 
+    icon: ShoppingCart,
+    description: 'Buy & sell crops directly',
+    gradient: 'from-indigo-500 to-indigo-600'
+  },
+  { 
+    name: 'Crop Recommendations', 
+    href: '/crop-recommendations', 
+    icon: Sparkles,
+    description: 'AI-powered crop suggestions',
+    gradient: 'from-violet-500 to-violet-600'
+  },
+  { 
+    name: 'AI Assistant', 
+    href: '/chat', 
+    icon: MessageCircle,
+    description: 'Chat with AI',
+    gradient: 'from-emerald-500 to-emerald-600'
+  },
+  { 
+    name: 'Voice Assistant', 
+    href: '/voice-chat', 
+    icon: Mic,
+    description: 'Voice in local languages',
+    gradient: 'from-pink-500 to-pink-600'
+  },
+]
 
 const stats = [
   { label: 'Accuracy', value: '94.2%', icon: TrendingUp, color: 'text-agri-400' },
@@ -32,122 +177,6 @@ const stats = [
 
 const Sidebar = ({ open, setOpen }) => {
   const location = useLocation()
-  const { t } = useLanguage()
-
-  const navigation = [
-    { 
-      name: t('dashboard'), 
-      href: '/dashboard', 
-      icon: LayoutDashboard,
-      description: t('overviewAnalytics'),
-      gradient: 'from-blue-500 to-blue-600'
-    },
-    { 
-      name: t('cropYield'), 
-      href: '/crop-yield', 
-      icon: Wheat,
-      description: t('predictHarvestYields'),
-      gradient: 'from-agri-500 to-agri-600'
-    },
-    { 
-      name: t('diseaseDetection'), 
-      href: '/disease-detection', 
-      icon: Bug,
-      description: t('analyzePlantHealth'),
-      gradient: 'from-red-500 to-red-600'
-    },
-    { 
-      name: t('pricePrediction'), 
-      href: '/price-prediction', 
-      icon: TrendingUp,
-      description: t('forecastCropPrices'),
-      gradient: 'from-green-500 to-emerald-600'
-    },
-    { 
-      name: t('fertilizerGuide'), 
-      href: '/fertilizer', 
-      icon: Beaker,
-      description: t('npkRecommendations'),
-      gradient: 'from-soil-500 to-soil-600'
-    },
-    { 
-      name: t('aiInsights'), 
-      href: '/insights', 
-      icon: Lightbulb,
-      description: t('smartRecommendations'),
-      gradient: 'from-purple-500 to-purple-600'
-    },
-    { 
-      name: t('aiAssistant'), 
-      href: '/chat', 
-      icon: MessageCircle,
-      description: t('chatWithAi'),
-      gradient: 'from-emerald-500 to-emerald-600'
-    },
-    { 
-      name: t('voiceAssistant'), 
-      href: '/voice-chat', 
-      icon: Mic,
-      description: t('voiceInLocalLanguages'),
-      gradient: 'from-pink-500 to-pink-600'
-    },
-    { 
-      name: t('cropCalendar'), 
-      href: '/crop-calendar', 
-      icon: Calendar,
-      description: t('sowingGuidance'),
-      gradient: 'from-indigo-500 to-indigo-600'
-    },
-    { 
-      name: t('pestAlert'), 
-      href: '/pest-alert', 
-      icon: AlertTriangle,
-      description: t('pestKnowledgeBase'),
-      gradient: 'from-orange-500 to-orange-600'
-    },
-    { 
-      name: t('seedCalculator'), 
-      href: '/seed-calculator', 
-      icon: Calculator,
-      description: t('calculateSeedRates'),
-      gradient: 'from-teal-500 to-teal-600'
-    },
-    { 
-      name: t('costEstimator'), 
-      href: '/cost-estimator', 
-      icon: DollarSign,
-      description: t('farmingCostEstimation'),
-      gradient: 'from-amber-500 to-amber-600'
-    },
-    { 
-      name: t('farmingTips'), 
-      href: '/farming-tips', 
-      icon: BookOpen,
-      description: t('practicalFarmingAdvice'),
-      gradient: 'from-cyan-500 to-cyan-600'
-    },
-    { 
-      name: t('encyclopedia'), 
-      href: '/encyclopedia', 
-      icon: Database,
-      description: t('farmingKnowledgeBase'),
-      gradient: 'from-violet-500 to-violet-600'
-    },
-    { 
-      name: t('soilChecker'), 
-      href: '/soil-checker', 
-      icon: TestTube,
-      description: t('soilSuitabilityCheck'),
-      gradient: 'from-lime-500 to-lime-600'
-    },
-    { 
-      name: t('profitCalculator'), 
-      href: '/profit-calculator', 
-      icon: PieChart,
-      description: t('cropProfitability'),
-      gradient: 'from-rose-500 to-rose-600'
-    },
-  ]
 
   return (
     <>
@@ -162,8 +191,8 @@ const Sidebar = ({ open, setOpen }) => {
                   <Leaf className="h-7 w-7 text-white" />
                 </div>
                 <div>
-                  <h1 className="text-2xl font-bold text-gradient">{t('appTitle')}</h1>
-                  <p className="text-sm text-slate-400">{t('appSubtitle')}</p>
+                  <h1 className="text-2xl font-bold text-gradient">LeafLense</h1>
+                  <p className="text-sm text-slate-400">Smart Farming Platform</p>
                 </div>
               </div>
             </div>
@@ -235,8 +264,8 @@ const Sidebar = ({ open, setOpen }) => {
                 <Leaf className="h-6 w-6 text-white" />
               </div>
               <div>
-                <h1 className="text-lg font-bold text-gradient">{t('appTitle')}</h1>
-                <p className="text-xs text-slate-400">{t('appSubtitle')}</p>
+                <h1 className="text-lg font-bold text-gradient">LeafLense</h1>
+                <p className="text-xs text-slate-400">Smart Farming Platform</p>
               </div>
             </div>
             <button

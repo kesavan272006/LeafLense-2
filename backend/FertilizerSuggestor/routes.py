@@ -3,7 +3,8 @@ from pydantic import BaseModel
 import joblib
 import pandas as pd
 import json
-import google.generativeai as genai
+import os
+from langchain_google_genai import ChatGoogleGenerativeAI
 from huggingface_hub import hf_hub_download
 import re
 import os
@@ -26,8 +27,9 @@ try:
     GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
     if not GEMINI_API_KEY:
         raise ValueError("GEMINI_API_KEY environment variable not set.")
-    genai.configure(api_key=GEMINI_API_KEY)
-    gemini_model = genai.GenerativeModel("gemini-2.0-flash")
+    llm = ChatGoogleGenerativeAI(
+        model='gemini-1.5-flash',
+    )
 
 except Exception as e:
     raise RuntimeError(f"Failed to initialize the service: {e}")
@@ -79,10 +81,8 @@ def predict(data: FertilizerRequest):
             f"Input Data: {json.dumps(input_dict)}"
         )
         
-        response = gemini_model.generate_content(gemini_prompt)
+        response = llm.invoke(gemini_prompt)
         match = re.search(r'\{[\s\S]*\}', response.text)
-
-        # 3. Prepare default values in case Gemini fails.
         recommended_n = input_dict["Nitrogen"] + 20
         recommended_p = input_dict["Phosphorus"] + 20
         recommended_k = input_dict["Potassium"] + 20

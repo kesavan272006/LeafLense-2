@@ -3,6 +3,10 @@ import aiohttp
 import os, httpx, math
 from dotenv import load_dotenv
 from pathlib import Path
+
+# Load environment variables from backend root directory
+backend_root = Path(__file__).parent.parent.parent.parent
+load_dotenv(backend_root / '.env')
 API_KEY = os.getenv("OWM_API_KEY")
 async def analyze_weather(lat: float, lon: float) -> dict:
     """

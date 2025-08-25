@@ -4,6 +4,7 @@ from apscheduler.triggers.cron import CronTrigger
 from FarmAgent.app.scheduler import run_daily_pipeline
 from FarmAgent.app.agents.weather_agent import analyze_weather
 from FarmAgent.app.agents.risk_engine import calculate_risks
+from FarmAgent.app.clients.firestore_client import get_firestore_client
 
 import asyncio
 from dotenv import load_dotenv
@@ -61,7 +62,7 @@ async def trigger_pipeline_now():
 @router.post("/farmers")
 async def register_farmer(farmer_data: dict):
     try:
-        db = firestore.client()
+        db = get_firestore_client()
         doc_ref = db.collection("farmers").document()
         doc_ref.set(farmer_data)
         return {
@@ -76,7 +77,7 @@ async def register_farmer(farmer_data: dict):
 @router.get("/farmers")
 async def get_all_farmers():
     try:
-        db = firestore.client()
+        db = get_firestore_client()
         farmers_ref = db.collection("farmers")
         farmers = []
         for doc in farmers_ref.stream():
@@ -94,7 +95,7 @@ async def get_all_farmers():
 @router.get("/alerts")
 async def get_all_alerts():
     try:
-        db = firestore.client()
+        db = get_firestore_client()
         alerts_ref = db.collection("alerts")
         alerts = []
         for doc in alerts_ref.stream():
@@ -112,7 +113,7 @@ async def get_all_alerts():
 @router.get("/alerts/{farmer_id}")
 async def get_farmer_alerts(farmer_id: str):
     try:
-        db = firestore.client()
+        db = get_firestore_client()
         alerts_ref = db.collection("alerts").where("farmer_id", "==", farmer_id)
         alerts = []
         for doc in alerts_ref.stream():
@@ -131,7 +132,7 @@ async def get_farmer_alerts(farmer_id: str):
 @router.post("/api/chat")
 async def chat_with_farmer(chat_data: dict):
     try:
-        db = firestore.client()
+        db = get_firestore_client()
         farmer_ref = db.collection("farmers").document(chat_data["farmer_id"])
         farmer_doc = farmer_ref.get()
         if not farmer_doc.exists:
@@ -157,7 +158,9 @@ async def chat_with_farmer(chat_data: dict):
         raise HTTPException(status_code=500, detail=f"Chat failed: {str(e)}")
 
 async def generate_chat_response(farmer, user_question, weather_data, risk_scores):
-    import google.generativeai as genai
+    from langchain_google_genai import ChatGoogleGenerativeAI
+    import os
+
     prompt = f"""
 You are FarmAI, an agricultural expert assistant for {farmer.get('name', 'the farmer')}.
 
@@ -174,9 +177,12 @@ Answer specifically for this farmer's situation. Be practical and actionable.
 Keep response under 200 characters. Use simple language.
 """
     try:
-        genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
-        model = genai.GenerativeModel("gemini-pro")
-        response = model.generate_content(prompt)
+        llm = ChatGoogleGenerativeAI(
+            model="gemini-1.5-flash",
+            model_kwargs={}
+        )
+
+        response = llm.invoke(prompt)
         return response.text.strip()
     except Exception:
         return "I'm having trouble processing your question right now. Please try again later."

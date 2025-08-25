@@ -4,9 +4,12 @@ import Layout from './components/layout/Layout'
 import Dashboard from './pages/Dashboard'
 import CropYield from './pages/CropYield'
 import DiseaseDetection from './pages/DiseaseDetection'
-import PricePrediction from './pages/PricePrediction'
+import WeatherAlerts from './pages/WeatherAlerts'
 import FertilizerRecommendation from './pages/FertilizerRecommendation'
 import Insights from './pages/Insights'
+import MandiPrices from './pages/MandiPrices'
+import CropMarketplace from './pages/CropMarketplace'
+import CropRecommendations from './pages/CropRecommendations'
 import Chatbot from './pages/Chatbot'
 import VoiceChatbot from './pages/VoiceChatbot'
 import LandingPage from './pages/landing'
@@ -20,6 +23,7 @@ import FarmingTips from './pages/FarmingTips'
 import Encyclopedia from './pages/Encyclopedia'
 import SoilChecker from './pages/SoilChecker'
 import ProfitCalculator from './pages/ProfitCalculator'
+import PricePrediction from './pages/PricePrediction'
 
 function App() {
   return (
@@ -36,6 +40,7 @@ function App() {
           <Route path="/fertilizer" element={<Layout><FertilizerRecommendation /></Layout>} />
           <Route path="/insights" element={<Layout><Insights /></Layout>} />
           <Route path="/chat" element={<Layout><Chatbot /></Layout>} />
+          <Route path="/weather-alerts" element={<Layout><WeatherAlerts /></Layout>} />
           <Route path="/voice-chat" element={<Layout><VoiceChatbot /></Layout>} />
           <Route path="/crop-calendar" element={<Layout><CropCalendar /></Layout>} />
           <Route path="/pest-alert" element={<Layout><PestAlert /></Layout>} />
@@ -45,6 +50,9 @@ function App() {
           <Route path="/encyclopedia" element={<Layout><Encyclopedia /></Layout>} />
           <Route path="/soil-checker" element={<Layout><SoilChecker /></Layout>} />
           <Route path="/profit-calculator" element={<Layout><ProfitCalculator /></Layout>} />
+          <Route path="/mandi-prices" element={<Layout><MandiPrices /></Layout>} />
+          <Route path="/marketplace" element={<Layout><CropMarketplace /></Layout>} />
+          <Route path="/crop-recommendations" element={<Layout><CropRecommendations /></Layout>} />
         </Routes>
       </div>
     </LanguageProvider>

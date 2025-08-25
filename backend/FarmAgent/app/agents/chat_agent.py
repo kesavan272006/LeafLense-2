@@ -1,9 +1,8 @@
 import os
-import google.generativeai as genai
+from langchain_google_genai import ChatGoogleGenerativeAI
 
 # Environment variables are already loaded globally in main.py
 # So here we just configure the API key
-genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
 
 def create_chat_prompt(farmer, user_question, weather_data, risk_scores):
     """Creates the context-aware prompt for the chatbot"""
@@ -39,8 +38,11 @@ async def generate_chat_response(farmer, user_question, weather_data, risk_score
     prompt = create_chat_prompt(farmer, user_question, weather_data, risk_scores)
     
     try:
-        model = genai.GenerativeModel('gemini-pro')
-        response = model.generate_content(prompt)
+        llm = ChatGoogleGenerativeAI(
+            model="gemini-1.5-flash",
+            model_kwargs={}
+        )
+        response = llm.invoke(prompt)
         return response.text.strip()
     except Exception as e:
         print(f"Chat error: {e}")

@@ -1,9 +1,12 @@
 import os
-import google.generativeai as genai
 from dotenv import load_dotenv
-from pathlib import Path
+from langchain_google_genai import ChatGoogleGenerativeAI
 
-genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
+load_dotenv()
+chat = ChatGoogleGenerativeAI(
+    api_key=os.getenv("GOOGLE_API_KEY"),
+    model="gemini-1.5-flash"    
+)
 
 async def generate_advice(farmer: dict, weather: dict, risks: dict) -> str:
     prompt = f"""
@@ -20,11 +23,8 @@ async def generate_advice(farmer: dict, weather: dict, risks: dict) -> str:
 
     Write direct, urgent message in English. No greetings. Just critical actions.
     """
-
     try:
-        model = genai.GenerativeModel('gemini-1.5-flash')
-        response = model.generate_content(prompt)
-        return response.text.strip().replace('*', '').replace('#', '')[:160]
+        response = await chat.agenerate(messages=[{"role": "user", "content": prompt}])
+        return response.generations[0][0].text.strip().replace('*', '').replace('#', '')[:160]
     except Exception as e:
-        print(f"Gemini API failed: {e}")
         return f"URGENT: {risks['disease_risk']*100}% disease risk. {risks['irrigation_action'].upper()} irrigation for {farmer.get('crop')}."
