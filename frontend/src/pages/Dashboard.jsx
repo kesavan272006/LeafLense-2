@@ -74,9 +74,9 @@ const stats = [
 ]
 
 const weatherData = [
-  { label: 'Temperature', value: '24°C', icon: Thermometer, color: 'text-orange-400' },
-  { label: 'Humidity', value: '65%', icon: CloudRain, color: 'text-blue-400' },
-  { label: 'UV Index', value: '7.2', icon: Sun, color: 'text-yellow-400' }
+  { label: '', value: '', icon: Thermometer, color: 'text-orange-400' },
+  { label: '', value: '', icon: CloudRain, color: 'text-blue-400' },
+  { label: '', value: '', icon: Sun, color: 'text-yellow-400' }
 ]
 
 const Dashboard = () => {
