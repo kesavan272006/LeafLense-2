@@ -29,8 +29,11 @@ yield_model_path = hf_hub_download(
 
 
 try:
-    with open(recommend_model_path, 'rb') as file:
-        recommend_model = pickle.load(file)
+    def load_and_use_model():
+        with open("your_model.pkl", "rb") as file:
+            model = pickle.load(file)
+    # use model here in this function only
+
     print("✅ Crop recommendation model loaded successfully.")
 except FileNotFoundError:
     print(f"❌ Error: Recommendation model not found at {recommend_model_path}")

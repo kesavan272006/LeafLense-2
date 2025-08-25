@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { Beaker, Zap, Brain, Info, AlertCircle } from 'lucide-react';
 
 const FertilizerRecommendation = () => {
-  // --- STATE AND DATA (No changes needed here) ---
   const [formData, setFormData] = useState({
     Crop_Type: '', Soil_Type: '', Nitrogen: '', Phosphorus: '', Potassium: '', Temperature: '', Humidity: '', Moisture: ''
   });
@@ -13,7 +12,6 @@ const FertilizerRecommendation = () => {
   const crops = ['Ground Nuts', 'Cotton', 'Sugarcane', 'Wheat', 'Tobacco', 'Barley', 'Millets', 'Pulses', 'Oil seeds', 'Maize', 'Paddy'];
   const soilTypes = ['Red', 'Black', 'Sandy', 'Loamy', 'Clayey'];
 
-  // --- HANDLERS (No changes needed here) ---
   const handleInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -75,11 +73,8 @@ const FertilizerRecommendation = () => {
       setLoading(false);
     }
   };
-
-  // --- RENDER ---
   return (
     <div className="p-6 space-y-8">
-      {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-4">
           <div className="w-12 h-12 bg-gradient-to-br from-green-600 to-green-700 rounded-xl flex items-center justify-center"><Beaker className="h-6 w-6 text-white" /></div>
@@ -88,16 +83,10 @@ const FertilizerRecommendation = () => {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        {/* Input Form Column */}
         <div className="space-y-6">
            <div className="bg-gray-800/40 backdrop-blur-sm rounded-2xl p-6 border border-gray-700/50">
             <h2 className="text-xl font-bold text-white mb-6">Soil Analysis Input</h2>
-            
-            {/* ================================================ */}
-            {/* THIS IS THE MISSING SECTION WITH THE INPUT BOXES */}
-            {/* ================================================ */}
             <form onSubmit={handleSubmit} className="space-y-4">
-              {/* Crop Type and Soil Type Selectors */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                  <div>
                   <label className="block text-sm font-medium text-gray-300 mb-2">Crop Type</label>
@@ -114,8 +103,6 @@ const FertilizerRecommendation = () => {
                   </select>
                 </div>
               </div>
-
-              {/* Nutrient Level Inputs */}
               <h3 className="text-lg font-semibold text-white mt-6 mb-4">Current Nutrient Levels (kg/ha)</h3>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div>
@@ -131,8 +118,6 @@ const FertilizerRecommendation = () => {
                   <input type="number" name="Potassium" value={formData.Potassium} onChange={handleInputChange} placeholder="e.g., 45" className="w-full px-4 py-3 bg-gray-700/50 border border-gray-600 rounded-lg text-white input-focus" required />
                 </div>
               </div>
-
-              {/* Environmental Condition Inputs */}
               <h3 className="text-lg font-semibold text-white mt-6 mb-4">Environmental Conditions</h3>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                  <div>
@@ -148,18 +133,12 @@ const FertilizerRecommendation = () => {
                   <input type="number" step="0.1" name="Moisture" value={formData.Moisture} onChange={handleInputChange} placeholder="e.g., 65.2" className="w-full px-4 py-3 bg-gray-700/50 border border-gray-600 rounded-lg text-white input-focus" required />
                 </div>
               </div>
-
-              {/* Submit Button */}
               <button type="submit" disabled={loading} className="w-full button-primary mt-6 flex items-center justify-center space-x-2">
                 {loading ? (<><div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div><span>Analyzing...</span></>) : (<><Zap className="h-5 w-5" /><span>Get Recommendations</span></>)}
               </button>
             </form>
-            {/* END OF MISSING SECTION */}
-
            </div>
         </div>
-
-        {/* Results Column (No changes needed here) */}
         <div className="space-y-6">
           {error && <div className="bg-red-900/40 border border-red-700/50 text-red-300 rounded-lg p-4 flex items-center"><AlertCircle className="h-5 w-5 mr-3" />{error}</div>}
           

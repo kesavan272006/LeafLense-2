@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { 
   User, 
   Mail, 
@@ -17,8 +17,15 @@ import {
   Users,
   CheckCircle,
   Map,
-  AlertCircle
+  AlertCircle,
+  QrCode,
+  Upload,
+  Camera,
+  Eye,
+  EyeOff,
+  CreditCard
 } from 'lucide-react';
+import jsQR from 'jsqr';
 import { doc, getDoc, setDoc, updateDoc } from 'firebase/firestore';
 import { database, auth } from '../config/firebase';
 import { onAuthStateChanged } from 'firebase/auth';
@@ -74,10 +81,32 @@ const Profile = () => {
     farm_size: '',
     soil_type: '',
     irrigation_type: '',
-    experience_level: 'beginner'
+    experience_level: 'beginner',
+    qr_code_data: '',
+    payment_upi_id: '',
+    payment_method: 'upi'
   });
 
   const [originalData, setOriginalData] = useState({ ...formData });
+  const [showQRCode, setShowQRCode] = useState(false);
+  const [qrCodeFile, setQrCodeFile] = useState(null);
+  const [qrValidationMessage, setQrValidationMessage] = useState('');
+  const [isValidatingQR, setIsValidatingQR] = useState(false);
+  const fileInputRef = useRef(null);
+
+  // Trusted payment gateways
+  const trustedGateways = [
+    "pay.google.com", 
+    "phonepe.com", 
+    "paytm.com", 
+    "bhimupi.com",
+    "razorpay.com",
+    "mobikwik.com",
+    "freecharge.com",
+    "amazonpay.com",
+    "jiomoney.com",
+    "airtel.in"
+  ];
   const districts = [
     'Bangalore', 'Mumbai', 'Delhi', 'Chennai', 'Hyderabad', 'Kolkata',
     'Pune', 'Ahmedabad', 'Jaipur', 'Lucknow', 'Bhopal', 'Patna'
@@ -126,7 +155,10 @@ const Profile = () => {
         farm_size: profileData.farm_size || '',
         soil_type: profileData.soil_type || '',
         irrigation_type: profileData.irrigation_type || '',
-        experience_level: profileData.experience_level || 'beginner'
+        experience_level: profileData.experience_level || 'beginner',
+        qr_code_data: profileData.qr_code_data || '',
+        payment_upi_id: profileData.payment_upi_id || '',
+        payment_method: profileData.payment_method || 'upi'
       };
 
       setFormData(mergedData);
@@ -203,6 +235,9 @@ const Profile = () => {
       soil_type: formData.soil_type,
       irrigation_type: formData.irrigation_type,
       experience_level: formData.experience_level,
+      qr_code_data: formData.qr_code_data,
+      payment_upi_id: formData.payment_upi_id,
+      payment_method: formData.payment_method,
       updatedAt: new Date()
     };
 
@@ -228,6 +263,98 @@ const Profile = () => {
   };
 
   const isFarmer = formData.userType === 'farmer';
+
+  const decodeQR = async (imageBase64) => {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.src = imageBase64;
+      img.onload = () => {
+        const canvas = document.createElement("canvas");
+        const ctx = canvas.getContext("2d");
+        canvas.width = img.width;
+        canvas.height = img.height;
+        ctx.drawImage(img, 0, 0, img.width, img.height);
+        const imageData = ctx.getImageData(0, 0, img.width, img.height);
+        const qrCode = jsQR(imageData.data, img.width, img.height);
+        qrCode ? resolve(qrCode.data) : reject("QR code not detected");
+      };
+      img.onerror = () => reject("Error loading image");
+    });
+  };
+
+  const verifyQR = (data) => {
+    try {
+      if (data.startsWith("http")) {
+        const qrUrl = new URL(data);
+        return trustedGateways.some((gateway) => qrUrl.hostname.includes(gateway));
+      }
+      if (data.startsWith("upi://pay")) return true;
+      return false;
+    } catch {
+      return false;
+    }
+  };
+
+  const handleQRCodeUpload = async (event) => {
+    const file = event.target.files[0];
+    if (!file) {
+      setQrValidationMessage("❌ Please select a QR code image.");
+      return;
+    }
+
+    // Validate file type
+    if (!file.type.startsWith('image/')) {
+      setQrValidationMessage('❌ Please upload a valid image file');
+      return;
+    }
+
+    setIsValidatingQR(true);
+    setQrValidationMessage('🔍 Validating QR code...');
+
+    try {
+      const reader = new FileReader();
+      reader.onload = async (e) => {
+        try {
+          const imageBase64 = e.target.result;
+          const qrData = await decodeQR(imageBase64);
+          
+          if (!verifyQR(qrData)) {
+            setQrValidationMessage("❌ Unverified QR code! Only trusted payment gateways or UPI links are allowed.");
+            setIsValidatingQR(false);
+            return;
+          }
+
+          setFormData(prev => ({
+            ...prev,
+            qr_code_data: imageBase64
+          }));
+          setQrCodeFile(file);
+          setQrValidationMessage("✅ QR code uploaded successfully!");
+          
+        } catch (error) {
+          console.error(error);
+          setQrValidationMessage("⚠ Error processing QR code.");
+        } finally {
+          setIsValidatingQR(false);
+        }
+      };
+      reader.readAsDataURL(file);
+    } catch (error) {
+      setQrValidationMessage("❌ Error reading the image file");
+      setIsValidatingQR(false);
+    }
+  };
+
+  const generateUPIQR = () => {
+    if (formData.payment_upi_id) {
+      // Generate UPI QR code data
+      const upiString = `upi://pay?pa=${formData.payment_upi_id}&pn=${formData.name}&cu=INR`;
+      setFormData(prev => ({
+        ...prev,
+        qr_code_data: upiString
+      }));
+    }
+  };
 
   if (loading) {
     return (
@@ -505,6 +632,151 @@ const Profile = () => {
                     <AlertCircle className="h-5 w-5" />
                     <span className="text-sm">Your farm will receive daily weather alerts at 6:00 AM</span>
                   </div>
+                </div>
+              </div>
+            )}
+            
+            {/* QR Code Payment Section */}
+            {isFarmer && (
+              <div className="bg-slate-800/50 backdrop-blur-sm rounded-2xl p-6 border border-slate-700/50">
+                <h3 className="text-lg font-bold text-white mb-4 flex items-center">
+                  <QrCode className="h-5 w-5 mr-2 text-green-400" />
+                  Payment QR Code
+                </h3>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <div className="mb-4">
+                      <label className="block text-sm text-slate-300 mb-2">Payment Method</label>
+                      <select
+                        value={formData.payment_method}
+                        onChange={(e) => handleInputChange('payment_method', e.target.value)}
+                        disabled={!isEditing}
+                        className="w-full p-3 bg-slate-700/30 rounded-xl text-white disabled:opacity-50"
+                      >
+                        <option value="upi">UPI</option>
+                        <option value="bank">Bank Transfer</option>
+                        <option value="wallet">Digital Wallet</option>
+                      </select>
+                    </div>
+
+                    {formData.payment_method === 'upi' && (
+                      <div className="mb-4">
+                        <label className="block text-sm text-slate-300 mb-2">UPI ID</label>
+                        <input
+                          type="text"
+                          value={formData.payment_upi_id}
+                          onChange={(e) => handleInputChange('payment_upi_id', e.target.value)}
+                          disabled={!isEditing}
+                          placeholder="yourname@paytm"
+                          className="w-full p-3 bg-slate-700/30 rounded-xl text-white disabled:opacity-50 placeholder-slate-400"
+                        />
+                        {isEditing && formData.payment_upi_id && (
+                          <button
+                            type="button"
+                            onClick={generateUPIQR}
+                            className="mt-2 px-4 py-2 bg-green-600 text-white text-sm rounded-lg hover:bg-green-700 transition-colors"
+                          >
+                            Generate UPI QR
+                          </button>
+                        )}
+                      </div>
+                    )}
+
+                    <div>
+                      <label className="block text-sm text-slate-300 mb-2">Upload QR Code Image</label>
+                      <input
+                        ref={fileInputRef}
+                        type="file"
+                        accept="image/*"
+                        onChange={handleQRCodeUpload}
+                        disabled={!isEditing}
+                        className="hidden"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => fileInputRef.current?.click()}
+                        disabled={!isEditing || isValidatingQR}
+                        className="w-full p-3 bg-slate-700/30 border border-slate-600 rounded-xl text-slate-300 disabled:opacity-50 hover:bg-slate-600/30 transition-colors flex items-center justify-center space-x-2"
+                      >
+                        {isValidatingQR ? (
+                          <>
+                            <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-slate-300"></div>
+                            <span>Validating...</span>
+                          </>
+                        ) : (
+                          <>
+                            <Upload className="h-4 w-4" />
+                            <span>Upload QR Code</span>
+                          </>
+                        )}
+                      </button>
+                      
+                      {/* Validation Message */}
+                      {qrValidationMessage && (
+                        <div className={`mt-3 p-3 rounded-xl text-sm ${
+                          qrValidationMessage.includes('✅') 
+                            ? 'bg-green-500/10 border border-green-500/20 text-green-400'
+                            : qrValidationMessage.includes('❌') || qrValidationMessage.includes('⚠')
+                            ? 'bg-red-500/10 border border-red-500/20 text-red-400'
+                            : 'bg-blue-500/10 border border-blue-500/20 text-blue-400'
+                        }`}>
+                          {qrValidationMessage}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm text-slate-300 mb-2">QR Code Preview</label>
+                    <div className="bg-slate-700/30 rounded-xl p-4 min-h-48 flex items-center justify-center border border-slate-600">
+                      {formData.qr_code_data ? (
+                        <div className="text-center">
+                          {formData.qr_code_data.startsWith('data:image') ? (
+                            <img 
+                              src={formData.qr_code_data} 
+                              alt="QR Code" 
+                              className="max-w-full max-h-40 rounded-lg mx-auto mb-2"
+                            />
+                          ) : (
+                            <div className="bg-white p-4 rounded-lg mb-2">
+                              <div className="text-black text-xs font-mono break-all">
+                                {formData.qr_code_data}
+                              </div>
+                            </div>
+                          )}
+                          <div className="flex items-center justify-center space-x-2">
+                            <button
+                              onClick={() => setShowQRCode(!showQRCode)}
+                              className="p-2 bg-slate-600 text-white rounded-lg hover:bg-slate-500 transition-colors"
+                            >
+                              {showQRCode ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                            </button>
+                            <p className="text-slate-400 text-xs">
+                              {showQRCode ? 'Hide from buyers' : 'Visible to buyers'}
+                            </p>
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="text-center text-slate-400">
+                          <QrCode className="h-12 w-12 mx-auto mb-2" />
+                          <p>No QR code uploaded</p>
+                          <p className="text-xs">Upload or generate QR code for payments</p>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="mt-4 p-4 bg-green-500/10 border border-green-500/20 rounded-xl">
+                  <div className="flex items-center space-x-2 text-green-400 mb-2">
+                    <CreditCard className="h-4 w-4" />
+                    <span className="text-sm font-medium">Secure Payment</span>
+                  </div>
+                  <p className="text-slate-300 text-sm">
+                    Buyers can scan your QR code to make instant payments for crop purchases. 
+                    Your QR code is securely stored and only visible to interested buyers.
+                  </p>
                 </div>
               </div>
             )}
