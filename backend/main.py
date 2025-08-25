@@ -17,6 +17,8 @@ from Yield_Prediction.routes import router as yield_router
 from markLense.routes import router as mandi_router
 from marketplace.routes import router as marketplace_router
 from crop_recommendations.routes import router as recommendations_router
+from PricePrediction.routes import router as price_router
+from AIChat.routes import router as ai_router
 
 # Create FastAPI app
 app = FastAPI(
@@ -42,6 +44,8 @@ app.include_router(yield_router, prefix="/yield", tags=["YieldPredictor"])
 app.include_router(mandi_router, prefix="", tags=["Mandi"])
 app.include_router(marketplace_router, prefix="", tags=["Marketplace"])
 app.include_router(recommendations_router, prefix="", tags=["CropRecommendations"])
+app.include_router(price_router, prefix="/price", tags=["PricePrediction"])
+app.include_router(ai_router, prefix="", tags=["AIChat"])
 
 @app.get("/")
 def root():

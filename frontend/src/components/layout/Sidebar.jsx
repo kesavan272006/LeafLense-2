@@ -13,6 +13,14 @@ import {
   Shield,
   Zap,
   Brain,
+  Calendar,
+  AlertTriangle,
+  Calculator,
+  DollarSign,
+  BookOpen,
+  Database,
+  TestTube,
+  PieChart,   
   Store,
   ShoppingCart,
   Sparkles
@@ -40,6 +48,13 @@ const navigation = [
     description: 'Analyze plant health',
     gradient: 'from-red-500 to-red-600'
   },
+  {
+    name: 'Price Prediction',
+    href: '/price-prediction',
+    icon: TrendingUp,
+    description: 'Forecast crop prices',
+    gradient: 'from-green-500 to-emerald-600'
+  },
   { 
     name: 'Weather Alerts', 
     href: '/weather-alerts', 
@@ -60,6 +75,62 @@ const navigation = [
     icon: Lightbulb,
     description: 'Smart recommendations',
     gradient: 'from-purple-500 to-purple-600'
+  },
+  {
+    name: 'Crop Calendar',
+    href: '/crop-calendar',
+    icon: Calendar,
+    description: 'Sowing guidance',
+    gradient: 'from-indigo-500 to-indigo-600'
+  },
+  {
+    name: 'Pest Alert',
+    href: '/pest-alert',
+    icon: AlertTriangle,
+    description: 'Pest knowledge base',
+    gradient: 'from-orange-500 to-orange-600'
+  },
+  {
+    name: 'Seed Calculator',
+    href: '/seed-calculator',
+    icon: Calculator,
+    description: 'Calculate seed rates',
+    gradient: 'from-teal-500 to-teal-600'
+  },
+  {
+    name: 'Cost Estimator',
+    href: '/cost-estimator',
+    icon: DollarSign,
+    description: 'Farming cost estimation',
+    gradient: 'from-amber-500 to-amber-600'
+  },
+  {
+    name: 'Farming Tips',
+    href: '/farming-tips',
+    icon: BookOpen,
+    description: 'Practical farming advice',
+    gradient: 'from-cyan-500 to-cyan-600'
+  },
+  {
+    name: 'Encyclopedia',
+    href: '/encyclopedia',
+    icon: Database,
+    description: 'Farming knowledge base',
+    gradient: 'from-violet-500 to-violet-600'
+  },
+  {
+    name: 'Soil Checker',
+    href: '/soil-checker',
+    icon: TestTube,
+    description: 'Soil suitability check',
+    gradient: 'from-lime-500 to-lime-600'
+  },
+  {
+    name: 'Profit Calculator',
+    href: '/profit-calculator',
+    icon: PieChart,
+    description: 'Crop profitability',
+    gradient: 'from-rose-500 to-rose-600'
   },
   { 
     name: 'Mandi Prices', 
@@ -112,22 +183,22 @@ const Sidebar = ({ open, setOpen }) => {
       {/* Desktop Sidebar */}
       <div className="hidden lg:flex lg:flex-shrink-0">
         <div className="w-80 flex flex-col">
-          <div className="flex-1 flex flex-col min-h-0 bg-slate-900/90 backdrop-blur-xl border-r border-slate-700/50">
-            {/* Logo */}
-            <div className="flex items-center justify-center px-6 py-6 bg-gradient-to-br from-slate-800/50 to-slate-900/50">
+          <div className="flex flex-col min-h-0 bg-slate-900/90 backdrop-blur-xl border-r border-slate-700/50">
+            {/* Logo - Fixed at top */}
+            <div className="flex-shrink-0 px-6 py-6 bg-gradient-to-br from-slate-800/50 to-slate-900/50">
               <div className="flex items-center space-x-3">
                 <div className="w-12 h-12 bg-gradient-to-br from-agri-500 to-agri-600 rounded-2xl flex items-center justify-center animate-glow">
                   <Leaf className="h-7 w-7 text-white" />
                 </div>
                 <div>
-                  <h1 className="text-2xl font-bold text-gradient">AI Agri-Advisor</h1>
-                  <p className="text-sm text-slate-400">Smart Agriculture Assistant</p>
+                  <h1 className="text-2xl font-bold text-gradient">LeafLense</h1>
+                  <p className="text-sm text-slate-400">Smart Farming Platform</p>
                 </div>
               </div>
             </div>
 
-            {/* Navigation */}
-            <nav className="flex-1 px-4 py-6 space-y-2">
+            {/* Navigation - Scrollable */}
+            <nav className="flex-1 overflow-y-auto px-4 py-4 space-y-2">
               {navigation.map((item) => {
                 const isActive = location.pathname === item.href
                 return (
@@ -157,8 +228,8 @@ const Sidebar = ({ open, setOpen }) => {
               })}
             </nav>
 
-            {/* Stats Card */}
-            <div className="px-4 py-4">
+            {/* Stats Card - Fixed at bottom */}
+            <div className="flex-shrink-0 px-4 py-4">
               <div className="bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-sm rounded-2xl p-4 border border-slate-700/50">
                 <h3 className="text-sm font-semibold text-white mb-3 flex items-center">
                   <Zap className="h-4 w-4 mr-2 text-agri-400" />
@@ -186,15 +257,15 @@ const Sidebar = ({ open, setOpen }) => {
         open ? 'translate-x-0' : '-translate-x-full'
       }`}>
         <div className="flex flex-col h-full">
-          {/* Mobile header */}
-          <div className="flex items-center justify-between px-6 py-4 border-b border-slate-700/50">
+          {/* Mobile header - Fixed at top */}
+          <div className="flex-shrink-0 flex items-center justify-between px-6 py-4 border-b border-slate-700/50">
             <div className="flex items-center space-x-3">
               <div className="w-10 h-10 bg-gradient-to-br from-agri-500 to-agri-600 rounded-xl flex items-center justify-center">
                 <Leaf className="h-6 w-6 text-white" />
               </div>
               <div>
-                <h1 className="text-lg font-bold text-gradient">AI Agri-Advisor</h1>
-                <p className="text-xs text-slate-400">Smart Agriculture Assistant</p>
+                <h1 className="text-lg font-bold text-gradient">LeafLense</h1>
+                <p className="text-xs text-slate-400">Smart Farming Platform</p>
               </div>
             </div>
             <button
@@ -205,8 +276,8 @@ const Sidebar = ({ open, setOpen }) => {
             </button>
           </div>
 
-          {/* Mobile Navigation */}
-          <nav className="flex-1 px-4 py-6 space-y-2">
+          {/* Mobile Navigation - Scrollable */}
+          <nav className="flex-1 overflow-y-auto px-4 py-4 space-y-2">
             {navigation.map((item) => {
               const isActive = location.pathname === item.href
               return (

@@ -6,7 +6,11 @@ from PIL import Image
 import io
 import json
 import re
-import google.generativeai as genai
+import numpy as np
+import tensorflow as tf
+from langchain_core.output_parsers import StrOutputParser
+from langchain_core.prompts import PromptTemplate
+from langchain_google_genai import ChatGoogleGenerativeAI
 from dotenv import load_dotenv
 import logging
 from typing import Dict, Any
@@ -17,7 +21,7 @@ load_dotenv()
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
-
+parser = StrOutputParser()
 router = APIRouter(prefix="/disease", tags=["Plant Disease"])
 
 # Initialize Gemini API
@@ -26,8 +30,10 @@ try:
     if not google_api_key:
         raise ValueError("No Google API key found in environment variables")
     
-    genai.configure(api_key=google_api_key)
-    gemini_model = genai.GenerativeModel('gemini-1.5-flash')
+    llm = ChatGoogleGenerativeAI(
+        model='gemini-1.5-flash',
+        api_key=google_api_key
+    )
     logger.info("✅ Gemini Vision API initialized successfully")
 except Exception as e:
     logger.error(f"Failed to initialize Gemini API: {str(e)}")
@@ -76,7 +82,7 @@ async def get_disease_advice(disease: str) -> str:
 
 @router.post("/predict")
 async def predict(file: UploadFile = File(...)):
-    if model is None:
+    if llm is None:
         return JSONResponse(content={"error": "Model not loaded."}, status_code=500)
 
     try:
@@ -102,11 +108,10 @@ async def predict(file: UploadFile = File(...)):
         print(f"Input array shape: {input_arr.shape}")
 
         # Model prediction
-        logger.info(f"Making prediction with model type: {model_type}")
         logger.info(f"Input array shape: {input_arr.shape}, dtype: {input_arr.dtype}")
         logger.info(f"Input array min: {np.min(input_arr)}, max: {np.max(input_arr)}")
         
-        prediction = model.predict(input_arr, verbose=0)
+        prediction = llm.invoke(input_arr, verbose=0)
         logger.info(f"Raw prediction shape: {prediction.shape}")
         logger.info(f"Raw prediction range: min={np.min(prediction)}, max={np.max(prediction)}")
         
@@ -135,8 +140,6 @@ async def predict(file: UploadFile = File(...)):
 
         # Enhanced logging
         logger.info(f"Top 5 predictions:")
-        for i, (idx, conf) in enumerate(zip(top_indices, top_confidences)):
-            logger.info(f"  {i+1}. {class_names[idx]}: {conf*100:.2f}%")
         
         # Debug: Check if all predictions are very low
         max_prediction = np.max(prediction)
@@ -159,7 +162,6 @@ async def predict(file: UploadFile = File(...)):
                 logger.info(f"Confidence gap between top 2 predictions: {confidence_gap:.2f}%")
                 
                 if confidence_gap > 1.0:  # If there's a reasonable gap
-                    result = class_names[result_index]
                     logger.info(f"Accepting prediction due to confidence gap: {result}")
                     try:
                         disease_advice = await get_disease_advice(result)
@@ -169,13 +171,11 @@ async def predict(file: UploadFile = File(...)):
                         else:
                             disease_advice = f"Potential issue detected: {result.replace('___', ' ').replace('_', ' ')}. The confidence is moderate, so please verify with additional inspection or consult an expert."
                 else:
-                    result = f"{class_names[top_indices[0]]} or {class_names[top_indices[1]]}"
                     disease_advice = "Multiple potential conditions detected with similar probabilities. Please consult with an expert for accurate diagnosis."
             else:
                 result = "Uncertain Classification"
                 disease_advice = "Unable to make a confident prediction. Please ensure the image shows clear plant features and symptoms, with good lighting conditions."
         else:
-            result = class_names[result_index]
             try:
                 disease_advice = await get_disease_advice(result)
             except Exception:
@@ -187,14 +187,11 @@ async def predict(file: UploadFile = File(...)):
                     disease_advice = f"Disease detected: {result}. Please consult with a local agricultural expert for specific treatment recommendations."
 
         ai_response = disease_advice
-        if model_type == "mock":
-            ai_response += "\n\n⚠️ Note: This prediction is from a mock model for development testing. For real disease detection, please provide a properly trained model."
 
         return {
             "class": result,
             "confidence": round(confidence, 2),
             "advice": ai_response,
-            "model_type": model_type,
             "status": "success",
             "all_predictions": prediction.tolist() if len(prediction) <= 10 else prediction[:10].tolist()
         }
@@ -212,8 +209,4 @@ def health_check():
     """Health check endpoint to verify model and LLM status"""
     return {
         "status": "healthy",
-        "model_loaded": model is not None,
-        "model_type": model_type,
-        "llm_initialized": llm is not None,
-        "total_classes": len(class_names)
     }

@@ -4,8 +4,7 @@ Test script to verify Gemini Vision API is working correctly
 
 import os
 from dotenv import load_dotenv
-import google.generativeai as genai
-
+from langchain_google_genai import ChatGoogleGenerativeAI
 # Load environment variables
 load_dotenv()
 
@@ -22,13 +21,15 @@ def test_gemini_setup():
     
     try:
         # Configure Gemini
-        genai.configure(api_key=api_key)
-        model = genai.GenerativeModel('gemini-1.5-flash')
+        llm = ChatGoogleGenerativeAI(
+            model='gemini-1.5-flash',
+            api_key=api_key
+        )
         print("✅ Gemini model initialized successfully")
         
         # Test with a simple text prompt
         test_prompt = "Hello, can you help me identify plant diseases?"
-        response = model.generate_content(test_prompt)
+        response = llm.invoke(test_prompt)
         
         if response.text:
             print("✅ Gemini API is responding correctly")
@@ -48,9 +49,10 @@ def test_plant_analysis():
     
     try:
         api_key = os.getenv("GOOGLE_API_KEY") or os.getenv("GEMINI_API_KEY")
-        genai.configure(api_key=api_key)
-        model = genai.GenerativeModel('gemini-1.5-flash')
-        
+        llm = ChatGoogleGenerativeAI(
+            model='gemini-1.5-flash',
+            api_key=api_key
+        )
         # Test plant analysis prompt
         plant_prompt = """
         You are an expert plant pathologist. If I send you an image of a plant leaf, 
@@ -58,7 +60,7 @@ def test_plant_analysis():
         Please respond with your capabilities and approach.
         """
         
-        response = model.generate_content(plant_prompt)
+        response = llm.invoke(plant_prompt)
         
         if response.text:
             print("✅ Gemini can analyze plant diseases")

@@ -6,7 +6,7 @@ const Layout = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false)
 
   return (
-    <div className="flex h-screen overflow-hidden">
+    <div className="flex h-screen overflow-hidden relative">
       {/* Sidebar */}
       <Sidebar open={sidebarOpen} setOpen={setSidebarOpen} />
       
@@ -15,7 +15,7 @@ const Layout = ({ children }) => {
         <Header setSidebarOpen={setSidebarOpen} />
         
         {/* Page content */}
-        <main className="flex-1 overflow-auto bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 relative">
+        <main className="flex-1 overflow-auto bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 relative min-h-0">
           {/* Background pattern */}
           <div className="absolute inset-0 opacity-5">
             <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
