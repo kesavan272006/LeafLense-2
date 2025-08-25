@@ -14,6 +14,9 @@ from FarmAgent.routes import router as farm_router
 from Plant_Disease.routes import router as plant_router
 from FertilizerSuggestor.routes import router as fert_router
 from Yield_Prediction.routes import router as yield_router
+from markLense.routes import router as mandi_router
+from marketplace.routes import router as marketplace_router
+from crop_recommendations.routes import router as recommendations_router
 
 # Create FastAPI app
 app = FastAPI(
@@ -32,10 +35,13 @@ app.add_middleware(
 )
 
 # Include routers
-app.include_router(farm_router, prefix="/farm", tags=["FarmAgent"])
+app.include_router(farm_router, prefix="", tags=["FarmAgent"])
 app.include_router(plant_router, prefix="/plant", tags=["Plant_Disease"])
 app.include_router(fert_router, prefix="/fertilizer", tags=["FertilizerSuggestor"])
 app.include_router(yield_router, prefix="/yield", tags=["YieldPredictor"])
+app.include_router(mandi_router, prefix="", tags=["Mandi"])
+app.include_router(marketplace_router, prefix="", tags=["Marketplace"])
+app.include_router(recommendations_router, prefix="", tags=["CropRecommendations"])
 
 @app.get("/")
 def root():

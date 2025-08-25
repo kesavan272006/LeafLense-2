@@ -5,6 +5,9 @@ import json
 import subprocess
 import shutil
 
+# Load environment variables from backend root directory
+backend_root = Path(__file__).parent.parent.parent.parent
+load_dotenv(backend_root / '.env')
 PERISKOPE_API_KEY = os.getenv("PERISKOPE_API_KEY")
 PERISKOPE_PHONE_ID = os.getenv("PERISKOPE_PHONE_ID", "")
 

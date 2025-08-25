@@ -12,7 +12,10 @@ import {
   TrendingUp,
   Shield,
   Zap,
-  Brain
+  Brain,
+  Store,
+  ShoppingCart,
+  Sparkles
 } from 'lucide-react'
 
 const navigation = [
@@ -38,6 +41,13 @@ const navigation = [
     gradient: 'from-red-500 to-red-600'
   },
   { 
+    name: 'Weather Alerts', 
+    href: '/weather-alerts', 
+    icon: Shield,
+    description: 'Live weather & alerts',
+    gradient: 'from-cyan-500 to-cyan-600'
+  },
+  { 
     name: 'Fertilizer Guide', 
     href: '/fertilizer', 
     icon: Beaker,
@@ -50,6 +60,27 @@ const navigation = [
     icon: Lightbulb,
     description: 'Smart recommendations',
     gradient: 'from-purple-500 to-purple-600'
+  },
+  { 
+    name: 'Mandi Prices', 
+    href: '/mandi-prices', 
+    icon: Store,
+    description: 'Live market rates',
+    gradient: 'from-orange-500 to-orange-600'
+  },
+  { 
+    name: 'Crop Marketplace', 
+    href: '/marketplace', 
+    icon: ShoppingCart,
+    description: 'Buy & sell crops directly',
+    gradient: 'from-indigo-500 to-indigo-600'
+  },
+  { 
+    name: 'Crop Recommendations', 
+    href: '/crop-recommendations', 
+    icon: Sparkles,
+    description: 'AI-powered crop suggestions',
+    gradient: 'from-violet-500 to-violet-600'
   },
   { 
     name: 'AI Assistant', 
