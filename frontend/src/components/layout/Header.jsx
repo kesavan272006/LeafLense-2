@@ -2,9 +2,12 @@ import { signOut } from 'firebase/auth';
 import { Menu, Bell, Search, User, Leaf } from 'lucide-react'
 import { useNavigate } from 'react-router-dom';
 import { auth } from '../../config/firebase';
+import { useLanguage } from '../../contexts/LanguageContext'
+import LanguageSelector from '../LanguageSelector'
 
 const Header = ({ setSidebarOpen }) => {
   const navigate = useNavigate()
+  const { t } = useLanguage()
    const logout = async () => {
         try {
             await signOut(auth);
@@ -33,8 +36,8 @@ const Header = ({ setSidebarOpen }) => {
                   <Leaf className="h-6 w-6 text-white" />
                 </div>
                 <div>
-                  <h1 className="text-xl font-bold text-gradient">AI Agri-Advisor</h1>
-                  <p className="text-xs text-slate-400">Smart Agriculture Assistant</p>
+                  <h1 className="text-xl font-bold text-gradient">{t('appTitle')}</h1>
+                  <p className="text-xs text-slate-400">{t('appSubtitle')}</p>
                 </div>
               </div>
             </div>
@@ -48,14 +51,16 @@ const Header = ({ setSidebarOpen }) => {
               </div>
               <input
                 type="text"
-                placeholder="Search tools, insights, or ask AI..."
+                placeholder={t('currentLanguage') === 'hi' ? 'टूल्स, इनसाइट्स खोजें या AI से पूछें...' : t('currentLanguage') === 'ml' ? 'ടൂളുകൾ, സ്റ്റാറ്റിക്സ് തിരയുക അല്ലെങ്കിൽ AI യോട് ചോദിക്കുക...' : 'Search tools, insights, or ask AI...'}
                 className="block w-full pl-10 pr-3 py-2 border border-slate-600 rounded-lg bg-slate-800/50 text-white placeholder-slate-400 input-focus"
               />
             </div>
           </div>
 
-          {/* Right side - Notifications + Profile */}
+          {/* Right side - Language + Notifications + Profile */}
           <div className="flex items-center space-x-4">
+            {/* Language Selector */}
+            <LanguageSelector />
             {/* Notifications */}
             <button onClick={()=>logout()} className="relative p-2 text-slate-400 hover:text-white transition-colors">
               <Bell className="h-6 w-6" />

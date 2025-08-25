@@ -14,6 +14,8 @@ from FarmAgent.routes import router as farm_router
 from Plant_Disease.routes import router as plant_router
 from FertilizerSuggestor.routes import router as fert_router
 from Yield_Prediction.routes import router as yield_router
+from PricePrediction.routes import router as price_router
+from AIChat.routes import router as ai_router
 
 # Create FastAPI app
 app = FastAPI(
@@ -36,6 +38,8 @@ app.include_router(farm_router, prefix="/farm", tags=["FarmAgent"])
 app.include_router(plant_router, prefix="/plant", tags=["Plant_Disease"])
 app.include_router(fert_router, prefix="/fertilizer", tags=["FertilizerSuggestor"])
 app.include_router(yield_router, prefix="/yield", tags=["YieldPredictor"])
+app.include_router(price_router, prefix="/price", tags=["PricePrediction"])
+app.include_router(ai_router, prefix="", tags=["AIChat"])
 
 @app.get("/")
 def root():

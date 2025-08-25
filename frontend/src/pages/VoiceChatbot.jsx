@@ -6,24 +6,17 @@ import textToSpeechService from '../services/textToSpeech'
 import TranscriptDisplay from '../components/TranscriptDisplay'
 import transcriptLogger from '../services/transcriptLogger'
 import googleSpeechService from '../services/googleSpeechService'
+import { useLanguage } from '../contexts/LanguageContext'
 
 const VoiceChatbot = () => {
-  const [messages, setMessages] = useState([
-    {
-      id: 'seed-1',
-      type: 'bot',
-      content:
-        'नमस्ते! मैं आपका कृषि सहायक हूं। मैं हिंदी, तमिल, तेलुगू, मलयालम, कन्नड़ और अंग्रेजी में आपकी मदद कर सकता हूं। आप मुझसे बात करके या टाइप करके अपने सवाल पूछ सकते हैं।',
-      timestamp: new Date(),
-      language: 'hi'
-    }
-  ])
+  const { t, currentLanguage } = useLanguage()
+  const [messages, setMessages] = useState([])
 
   const [input, setInput] = useState('')
   const [isVoiceMode, setIsVoiceMode] = useState(false)
   const [voiceState, setVoiceState] = useState('idle') // idle, listening, processing, speaking, error
   const [currentTranscription, setCurrentTranscription] = useState(null)
-  const [selectedLanguage, setSelectedLanguage] = useState('hi')
+  const [selectedLanguage, setSelectedLanguage] = useState(currentLanguage)
   const [location, setLocation] = useState('Delhi')
   const [isSettingsOpen, setIsSettingsOpen] = useState(false)
   const [isTTSEnabled, setIsTTSEnabled] = useState(true)
@@ -50,12 +43,9 @@ const VoiceChatbot = () => {
   ]
 
   const sampleQuestions = {
-    hi: ['कल बारिश होगी?', 'गेहूं की फसल कैसी है?', 'क्या खाद डालूं?', 'कीट से बचाव कैसे करूं?', 'फसल कब काटूं?'],
-    en: ['Will it rain tomorrow?', 'How is my wheat crop?', 'What fertilizer to use?', 'How to prevent pests?', 'When to harvest crop?'],
-    ta: ['நாளை மழை வருமா?', 'கோதுமை பயிர் எப்படி உள்ளது?', 'எந்த உரம் பயன்படுத்த வேண்டும்?', 'பூச்சிகளை எப்படி தடுப்பது?', 'பயிரை எப்போது அறுவடை செய்வது?'],
-    te: ['రేపు వర్షం వస్తుందా?', 'గోధుమ పంట ఎలా ఉంది?', 'ఏ ఎరువు వాడాలి?', 'కీటకాలను ఎలా నివారించాలి?', 'పంటను ఎప్పుడు కోయాలి?'],
-    ml: ['നാളെ മഴ വരുമോ?', 'ഗോതമ്പ് വിള എങ്ങനെയുണ്ട്?', 'എന്ത് വളം ഉപയോഗിക്കണം?', 'കീടങ്ങളെ എങ്ങനെ തടയാം?', 'വിള എപ്പോൾ വെട്ടണം?'],
-    kn: ['ನಾಳೆ ಮಳೆ ಬರುತ್ತದೆಯೇ?', 'ಗೋಧಿ ಬೆಳೆ ಹೇಗಿದೆ?', 'ಯಾವ ಗೊಬ್ಬರ ಬಳಸಬೇಕು?', 'ಕೀಟಗಳನ್ನು ಹೇಗೆ ತಡೆಯುವುದು?', 'ಬೆಳೆಯನ್ನು ಯಾವಾಗ ಕೊಯ್ಯಬೇಕು?']
+    hi: [t('willItRainTomorrow'), t('howIsMyWheatCrop'), t('whatFertilizerToUse'), t('howToPreventPests'), t('whenToHarvestCrop')],
+    en: [t('willItRainTomorrow'), t('howIsMyWheatCrop'), t('whatFertilizerToUse'), t('howToPreventPests'), t('whenToHarvestCrop')],
+    ml: [t('willItRainTomorrow'), t('howIsMyWheatCrop'), t('whatFertilizerToUse'), t('howToPreventPests'), t('whenToHarvestCrop')]
   }
 
   const scrollToBottom = () => {
@@ -65,6 +55,19 @@ const VoiceChatbot = () => {
   useEffect(() => {
     scrollToBottom()
   }, [messages])
+
+  // Initialize welcome message
+  useEffect(() => {
+    setMessages([
+      {
+        id: 'seed-1',
+        type: 'bot',
+        content: t('voiceChatbotWelcome'),
+        timestamp: new Date(),
+        language: currentLanguage
+      }
+    ])
+  }, [t, currentLanguage])
 
   // ---- one-time init: logger + callbacks ----
   useEffect(() => {
@@ -133,6 +136,11 @@ const VoiceChatbot = () => {
   useEffect(() => {
     voiceProcessor.setLanguage(selectedLanguage)
   }, [selectedLanguage])
+
+  // Sync selectedLanguage with currentLanguage
+  useEffect(() => {
+    setSelectedLanguage(currentLanguage)
+  }, [currentLanguage])
 
   useEffect(() => {
     voiceProcessor.setLocation(location)
@@ -230,10 +238,13 @@ const VoiceChatbot = () => {
 
   const getStateText = () => {
     const stateTexts = {
-      hi: { idle: 'बोलने के लिए दबाएं', listening: 'सुन रहा हूं...', processing: 'प्रोसेसिंग...', speaking: 'जवाब दे रहा हूं...', error: 'त्रुटि हुई है' },
-      en: { idle: 'Press to speak', listening: 'Listening...', processing: 'Processing...', speaking: 'Speaking...', error: 'Error occurred' }
+      idle: t('pressToSpeak'),
+      listening: t('listening'),
+      processing: t('processing'),
+      speaking: t('speaking'),
+      error: t('errorOccurred')
     }
-    return stateTexts[selectedLanguage]?.[voiceState] || stateTexts.en[voiceState] || 'Ready'
+    return stateTexts[voiceState] || 'Ready'
   }
 
   const safeTime = (t) => (t instanceof Date ? t : new Date(t))
@@ -249,8 +260,8 @@ const VoiceChatbot = () => {
             <Sparkles className="h-6 w-6 text-white" />
           </div>
           <div>
-            <h1 className="text-3xl font-bold text-white">कृषि वॉइस असिस्टेंट</h1>
-            <p className="text-slate-400">Voice-enabled Agricultural Assistant</p>
+            <h1 className="text-3xl font-bold text-white">{t('voiceAssistantTitle')}</h1>
+            <p className="text-slate-400">{t('voiceAssistantSubtitle')}</p>
           </div>
         </div>
 
@@ -551,7 +562,7 @@ const VoiceChatbot = () => {
           {/* Sample Questions */}
           {!hasUserMsg && (
             <div className="mb-4">
-              <h3 className="text-sm font-medium text-slate-300 mb-3 text-center">नमूना प्रश्न / Sample Questions:</h3>
+              <h3 className="text-sm font-medium text-slate-300 mb-3 text-center">{t('sampleQuestions')}:</h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                 {sampleQuestions[selectedLanguage]?.slice(0, 4).map((question, index) => (
                   <button
@@ -578,7 +589,7 @@ const VoiceChatbot = () => {
                     handleTextSubmit()
                   }
                 }}
-                placeholder={selectedLanguage === 'hi' ? 'यहाँ अपना सवाल लिखें...' : 'Type your question here...'}
+                placeholder={t('typeYourQuestion')}
                 className="w-full px-4 py-3 bg-slate-700/50 border border-slate-600 rounded-lg text-white placeholder-slate-400 input-focus resize-none"
                 rows={1}
                 disabled={voiceState === 'processing' || voiceState === 'speaking'}
@@ -591,11 +602,11 @@ const VoiceChatbot = () => {
               disabled={!input.trim() || voiceState === 'processing' || voiceState === 'speaking'}
               className="px-6 py-3 bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 disabled:from-slate-600 disabled:to-slate-700 text-white rounded-lg transition-all disabled:cursor-not-allowed"
             >
-              भेजें / Send
+              {t('send')}
             </button>
           </div>
 
-          <p className="text-xs text-slate-500 mt-2 text-center">Voice: Click the microphone • Text: Type and press Enter</p>
+          <p className="text-xs text-slate-500 mt-2 text-center">{t('voiceClickMic')}</p>
         </div>
       </div>
     </div>
