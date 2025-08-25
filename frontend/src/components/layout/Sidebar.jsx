@@ -228,26 +228,7 @@ const Sidebar = ({ open, setOpen }) => {
               })}
             </nav>
 
-            {/* Stats Card - Fixed at bottom */}
-            <div className="flex-shrink-0 px-4 py-4">
-              <div className="bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-sm rounded-2xl p-4 border border-slate-700/50">
-                <h3 className="text-sm font-semibold text-white mb-3 flex items-center">
-                  <Zap className="h-4 w-4 mr-2 text-agri-400" />
-                  AI Performance
-                </h3>
-                <div className="space-y-3">
-                  {stats.map((stat) => (
-                    <div key={stat.label} className="flex items-center justify-between">
-                      <div className="flex items-center space-x-2">
-                        <stat.icon className={`h-4 w-4 ${stat.color}`} />
-                        <span className="text-xs text-slate-400">{stat.label}</span>
-                      </div>
-                      <span className="text-sm font-semibold text-white">{stat.value}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
+            
           </div>
         </div>
       </div>
