@@ -10,6 +10,10 @@ import Insights from './pages/Insights'
 import MandiPrices from './pages/MandiPrices'
 import CropMarketplace from './pages/CropMarketplace'
 import CropRecommendations from './pages/CropRecommendations'
+import Orders from './pages/Orders'
+import Notifications from './pages/Notifications'
+import FarmerDashboard from './pages/FarmerDashboard'
+import BuyerDashboard from './pages/BuyerDashboard'
 import Chatbot from './pages/Chatbot'
 import VoiceChatbot from './pages/VoiceChatbot'
 import LandingPage from './pages/landing'
@@ -52,6 +56,10 @@ function App() {
           <Route path="/profit-calculator" element={<Layout><ProfitCalculator /></Layout>} />
           <Route path="/mandi-prices" element={<Layout><MandiPrices /></Layout>} />
           <Route path="/marketplace" element={<Layout><CropMarketplace /></Layout>} />
+          <Route path="/orders" element={<Layout><Orders /></Layout>} />
+          <Route path="/notifications" element={<Layout><Notifications /></Layout>} />
+          <Route path="/farmer-dashboard" element={<Layout><FarmerDashboard /></Layout>} />
+          <Route path="/buyer-dashboard" element={<Layout><BuyerDashboard /></Layout>} />
           <Route path="/crop-recommendations" element={<Layout><CropRecommendations /></Layout>} />
         </Routes>
       </div>

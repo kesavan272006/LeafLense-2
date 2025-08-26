@@ -303,7 +303,26 @@ To pay manually:
                       <Button
                         variant="contained"
                         size="large"
-                        onClick={handleDirectPayment}
+                        onClick={() => {
+                          if (!qrCodes) return;
+                          const isMobile = /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+                          if (qrCodes.startsWith('upi://')) {
+                            if (isMobile) {
+                              window.location.href = qrCodes;
+                            } else {
+                              alert('UPI payment links only work on mobile devices with a UPI app installed. Please scan the QR code with your phone.');
+                            }
+                          } else if (qrCodes.startsWith('http')) {
+                            window.open(qrCodes, '_blank');
+                          } else {
+                            const upiLink = qrCodes.includes('upi://') ? qrCodes : `upi://pay?${qrCodes}`;
+                            if (isMobile) {
+                              window.location.href = upiLink;
+                            } else {
+                              alert('UPI payment links only work on mobile devices with a UPI app installed. Please scan the QR code with your phone.');
+                            }
+                          }
+                        }}
                         startIcon={<Smartphone />}
                         sx={{ 
                           py: 1.5, 

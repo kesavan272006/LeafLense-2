@@ -237,10 +237,67 @@ const CropMarketplace = () => {
       fetchFarmerQR();
     }, [listing]);
 
+    // Place order first
+    const placeOrder = async () => {
+      try {
+        const orderData = {
+          listingId: listing.id,
+          buyerId: currentUser.uid,
+          farmerId: listing.farmerId,
+          cropName: listing.cropName,
+          variety: listing.variety,
+          quantity: listing.orderQuantity || listing.quantity,
+          pricePerKg: listing.pricePerKg,
+          totalAmount: (listing.orderQuantity || listing.quantity) * listing.pricePerKg,
+          buyerName: userProfile?.name || 'Anonymous Buyer',
+          buyerPhone: userProfile?.phone || 'Not provided',
+          buyerLocation: userProfile?.district || 'Unknown',
+          farmerName: listing.farmerName,
+          farmerPhone: listing.farmerPhone,
+          farmerLocation: listing.farmerLocation,
+          status: 'placed',
+          createdAt: new Date(),
+          paymentMethod: farmerQRCode ? 'digital' : 'contact_farmer'
+        };
+
+        await addDoc(collection(database, 'orders'), orderData);
+        
+        // Create notification for farmer
+        await addDoc(collection(database, 'notifications'), {
+          orderId: 'temp', // Will be updated
+          action: 'new_order',
+          message: `New order received: ${orderData.quantity}kg ${orderData.cropName} worth ₹${orderData.totalAmount.toLocaleString()}`,
+          recipientId: listing.farmerId,
+          senderId: currentUser.uid,
+          read: false,
+          createdAt: new Date(),
+          orderData: {
+            cropName: orderData.cropName,
+            quantity: orderData.quantity,
+            totalAmount: orderData.totalAmount
+          }
+        });
+
+        return true;
+      } catch (error) {
+        console.error('Error placing order:', error);
+        setErrorMsg('Failed to place order. Please try again.');
+        return false;
+      }
+    };
+
     // Direct payment handling - no camera needed!
-    const handleDirectPayment = () => {
+    const handleDirectPayment = async () => {
+      // First place the order
+      const orderPlaced = await placeOrder();
+      if (!orderPlaced) return;
+
       if (!farmerQRCode) {
-        setErrorMsg('No payment method available. Please contact farmer directly.');
+        setErrorMsg('Order placed successfully! Contact farmer directly for payment.');
+        setTimeout(() => {
+          alert('🎉 Order placed successfully! The farmer will contact you for payment and delivery details.');
+          onClose();
+        }, 2000);
         return;
       }
 
@@ -379,7 +436,7 @@ const CropMarketplace = () => {
             </div>
             <div className="flex justify-between">
               <span className="text-slate-400">Quantity:</span>
-              <span className="text-white">{listing?.quantity} kg</span>
+              <span className="text-white">{listing?.orderQuantity || listing?.quantity} kg</span>
             </div>
             <div className="flex justify-between">
               <span className="text-slate-400">Price per kg:</span>
@@ -387,7 +444,7 @@ const CropMarketplace = () => {
             </div>
             <div className="flex justify-between font-semibold border-t border-slate-600 pt-2 mt-2">
               <span className="text-slate-300">Total Amount:</span>
-              <span className="text-green-400">₹{listing ? (listing.quantity * listing.pricePerKg).toLocaleString() : 0}</span>
+              <span className="text-green-400">₹{listing ? ((listing.orderQuantity || listing.quantity) * listing.pricePerKg).toLocaleString() : 0}</span>
             </div>
           </div>
         </div>
@@ -618,23 +675,39 @@ const CropMarketplace = () => {
                       </div>
                     </div>
 
-                    <div className="flex space-x-2">
-                      <button
-                        onClick={() => handleInterest(listing.id)}
-                        className="flex-1 bg-indigo-600 text-white py-2 px-4 rounded-xl hover:bg-indigo-700 transition-colors flex items-center justify-center space-x-2"
-                      >
-                        <Heart className="h-4 w-4" />
-                        <span>Show Interest</span>
-                      </button>
-                      <button
-                        onClick={() => {
-                          setSelectedListing(listing);
-                          setShowQRScanner(true);
-                        }}
-                        className="bg-green-600 text-white p-2 rounded-xl hover:bg-green-700 transition-colors"
-                      >
-                        <QrCode className="h-5 w-5" />
-                      </button>
+                    <div className="space-y-3">
+                      <div className="flex items-center space-x-2">
+                        <label className="text-slate-300 text-sm font-medium">Quantity (kg):</label>
+                        <input
+                          type="number"
+                          min="1"
+                          max={listing.quantity}
+                          defaultValue="1"
+                          id={`quantity-${listing.id}`}
+                          className="w-20 px-2 py-1 bg-slate-700/50 rounded text-white text-sm text-center"
+                        />
+                        <span className="text-slate-400 text-sm">/ {listing.quantity} kg</span>
+                      </div>
+                      <div className="flex space-x-2">
+                        <button
+                          onClick={() => handleInterest(listing.id)}
+                          className="flex-1 bg-indigo-600 text-white py-2 px-4 rounded-xl hover:bg-indigo-700 transition-colors flex items-center justify-center space-x-2"
+                        >
+                          <Heart className="h-4 w-4" />
+                          <span>Show Interest</span>
+                        </button>
+                        <button
+                          onClick={() => {
+                            const quantity = document.getElementById(`quantity-${listing.id}`).value;
+                            setSelectedListing({...listing, orderQuantity: parseInt(quantity)});
+                            setShowQRScanner(true);
+                          }}
+                          className="bg-green-600 text-white p-2 rounded-xl hover:bg-green-700 transition-colors flex items-center justify-center"
+                          title="Place Order"
+                        >
+                          <ShoppingCart className="h-4 w-4" />
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
