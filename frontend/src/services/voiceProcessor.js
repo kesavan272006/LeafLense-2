@@ -4,6 +4,7 @@
  */
 
 import aiService from './aiService.js'
+import textToSpeechService from './textToSpeech.js'
 
 class VoiceProcessor {
   constructor() {
@@ -44,11 +45,8 @@ class VoiceProcessor {
     this.recognition.continuous = true
     this.recognition.interimResults = true
     this.recognition.maxAlternatives = 3
-
-    // Set language based on current language
     this.recognition.lang = this.getRecognitionLanguage()
 
-    // Event handlers
     this.recognition.onstart = () => {
       this.isListening = true
       this.callbacks.onStateChange('listening')
@@ -72,12 +70,10 @@ class VoiceProcessor {
         }
       }
 
-      // Update transcripts
       this.interimTranscript = interimTranscript
       this.finalTranscript = finalTranscript
       this.confidence = confidence
 
-      // Send transcription update
       this.callbacks.onTranscription({
         interimTranscript: interimTranscript,
         finalTranscript: finalTranscript,
@@ -88,7 +84,6 @@ class VoiceProcessor {
         transcript: finalTranscript || interimTranscript
       })
 
-      // Process final transcript
       if (finalTranscript.trim()) {
         this.processFinalTranscript(finalTranscript.trim())
       }
@@ -98,7 +93,7 @@ class VoiceProcessor {
       console.error('Speech recognition error:', event.error)
       this.isListening = false
       this.callbacks.onStateChange('error')
-      
+
       let errorMessage = 'Speech recognition error'
       switch (event.error) {
         case 'no-speech':
@@ -116,7 +111,7 @@ class VoiceProcessor {
         default:
           errorMessage = `Speech recognition error: ${event.error}`
       }
-      
+
       this.callbacks.onError(errorMessage)
     }
 
@@ -132,17 +127,17 @@ class VoiceProcessor {
    */
   getAlternatives(event) {
     if (!event.results.length) return []
-    
+
     const lastResult = event.results[event.results.length - 1]
     const alternatives = []
-    
+
     for (let i = 0; i < Math.min(lastResult.length, 3); i++) {
       alternatives.push({
         transcript: lastResult[i].transcript,
         confidence: lastResult[i].confidence || 0
       })
     }
-    
+
     return alternatives
   }
 
@@ -162,7 +157,7 @@ class VoiceProcessor {
       'mr': 'mr-IN',
       'pa': 'pa-IN'
     }
-    
+
     return languageMap[this.currentLanguage] || 'en-US'
   }
 
@@ -172,7 +167,7 @@ class VoiceProcessor {
   async processFinalTranscript(transcript) {
     try {
       this.callbacks.onStateChange('processing')
-      
+
       // Get AI response
       const aiResponse = await aiService.processQuery(
         transcript,
@@ -180,7 +175,7 @@ class VoiceProcessor {
         this.currentLocation
       )
 
-      // Send complete response
+      // Send complete response to callbacks
       this.callbacks.onResponse({
         query: transcript,
         response: aiResponse.response,
@@ -189,6 +184,13 @@ class VoiceProcessor {
         weather: aiResponse.weather,
         confidence: aiResponse.confidence
       })
+
+      // Speak the AI response
+      try {
+        await textToSpeechService.speak(aiResponse.response, aiResponse.language)
+      } catch (error) {
+        console.error('TTS playback failed:', error)
+      }
 
       this.callbacks.onStateChange('idle')
     } catch (error) {
@@ -206,29 +208,22 @@ class VoiceProcessor {
       throw new Error('Speech recognition is not supported')
     }
 
-    if (this.isListening) {
-      return
-    }
+    if (this.isListening) return
 
     try {
-      // Request microphone permission
       await navigator.mediaDevices.getUserMedia({ audio: true })
-      
-      // Initialize if not already done
+
       if (!this.recognition) {
         this.initializeSpeechRecognition()
       }
 
-      // Update language if needed
       if (this.recognition.lang !== this.getRecognitionLanguage()) {
         this.recognition.lang = this.getRecognitionLanguage()
       }
 
-      // Clear previous transcripts
       this.interimTranscript = ''
       this.finalTranscript = ''
 
-      // Start recognition
       this.recognition.start()
     } catch (error) {
       console.error('Failed to start voice interaction:', error)

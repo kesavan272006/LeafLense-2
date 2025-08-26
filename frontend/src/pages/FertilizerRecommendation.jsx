@@ -52,7 +52,8 @@ const FertilizerRecommendation = () => {
     }
 
     try {
-      const res = await fetch("https://8000-01k3e24g6pb7756q1m4p3gy0nz.cloudspaces.litng.ai/fertilizer/predict", {
+      // IMPORTANT: Replace with your deployed URL
+      const res = await fetch("http://127.0.0.1:8000/fertilizer/predict", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(processedData)

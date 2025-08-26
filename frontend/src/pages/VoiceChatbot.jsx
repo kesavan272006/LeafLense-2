@@ -236,6 +236,21 @@ const VoiceChatbot = () => {
     }
   }
 
+  const handleSpeak = async (text) => {
+    setVoiceState("speaking");
+    try {
+      await textToSpeechService.speak(text, "en");
+    } finally {
+      setVoiceState("idle");
+    }
+  };
+
+  const handleStop = () => {
+    textToSpeechService.stop();
+    setVoiceState("idle");
+    // optionally focus user input here if you have a ref
+  };
+
   const getStateText = () => {
     const stateTexts = {
       idle: t('pressToSpeak'),
@@ -576,7 +591,23 @@ const VoiceChatbot = () => {
               </div>
             </div>
           )}
+          <div className="p-4 flex flex-col items-center gap-3">
+            <button
+              onClick={() => handleSpeak("Hello! I am your voice assistant.")}
+              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+            >
+              Speak
+            </button>
 
+            {voiceState === "speaking" && (
+              <button
+                onClick={handleStop}
+                className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700"
+              >
+                Stop Speaking
+              </button>
+            )}
+          </div>
           {/* Text Input */}
           <div className="flex items-center space-x-4">
             <div className="flex-1 relative">

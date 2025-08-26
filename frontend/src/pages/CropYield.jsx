@@ -52,13 +52,15 @@ const apiPayload = {
 
     try {
         // Send a POST request to your FastAPI backend
-        const response = await fetch('https://8000-01k3e24g6pb7756q1m4p3gy0nz.cloudspaces.litng.ai//yield/predict-yield', {
+        const response = await fetch('http://127.0.0.1:8000/yield/predict-yield', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(apiPayload),
         });
+
+        console.log(JSON.stringify(apiPayload))
 
         if (!response.ok) {
             // Handle HTTP errors
