@@ -297,49 +297,23 @@ To pay manually:
                         Scan with any UPI app or use the buttons below
                       </Typography>
                     </Box>
-
-                    {/* Action Buttons */}
-                    <Stack spacing={2}>
+                    {
+                      <Stack spacing={2}>
                       <Button
                         variant="contained"
-                        size="large"
+                        color="primary"
+                        sx={{ mt: 2, py: 1.5, fontSize: '1.1rem', background: 'linear-gradient(45deg, #4CAF50 30%, #45a049 90%)', '&:hover': { background: 'linear-gradient(45deg, #45a049 30%, #4CAF50 90%)', transform: 'translateY(-1px)', boxShadow: 6 }, transition: 'all 0.3s ease' }}
+                        startIcon={<Smartphone />}
                         onClick={() => {
                           if (!qrCodes) return;
-                          const isMobile = /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-                          if (qrCodes.startsWith('upi://')) {
-                            if (isMobile) {
-                              window.location.href = qrCodes;
-                            } else {
-                              alert('UPI payment links only work on mobile devices with a UPI app installed. Please scan the QR code with your phone.');
-                            }
-                          } else if (qrCodes.startsWith('http')) {
-                            window.open(qrCodes, '_blank');
+                          if (qrCodes.startsWith('upi://pay')) {
+                            window.location.href = qrCodes;
                           } else {
-                            const upiLink = qrCodes.includes('upi://') ? qrCodes : `upi://pay?${qrCodes}`;
-                            if (isMobile) {
-                              window.location.href = upiLink;
-                            } else {
-                              alert('UPI payment links only work on mobile devices with a UPI app installed. Please scan the QR code with your phone.');
-                            }
+                            window.open(qrCodes, '_blank');
                           }
                         }}
-                        startIcon={<Smartphone />}
-                        sx={{ 
-                          py: 1.5, 
-                          fontSize: '1.1rem',
-                          background: 'linear-gradient(45deg, #4CAF50 30%, #45a049 90%)',
-                          '&:hover': {
-                            background: 'linear-gradient(45deg, #45a049 30%, #4CAF50 90%)',
-                            transform: 'translateY(-1px)',
-                            boxShadow: 6
-                          },
-                          transition: 'all 0.3s ease'
-                        }}
                       >
-                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                          <Zap size={20} />
-                          {getPaymentButtonText()}
-                        </Box>
+                        Pay Now
                       </Button>
 
                       <Button
@@ -396,6 +370,7 @@ To pay manually:
                         </Box>
                       )}
                     </Stack>
+                    }
 
                     {/* Enhanced Instructions */}
                     <Box sx={{ mt: 3, p: 2, backgroundColor: '#e3f2fd', borderRadius: 2 }}>
