@@ -11,8 +11,6 @@ app_port: 7860
 
 **LeafLense** is an advanced agricultural intelligence platform that combines machine learning, computer vision, and AI agents to provide comprehensive farming solutions. The platform offers plant disease detection, fertilizer recommendations, crop yield predictions, and proactive farming alerts through an intelligent agent system.
 
-## 🌟 Key Features
-... (the rest of your great README continues here)
 
 # 🌱 LeafLense - AI-Powered Agricultural Assistant
 
